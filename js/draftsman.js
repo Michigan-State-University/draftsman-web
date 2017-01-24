@@ -1,10 +1,19 @@
 let output;
+
 let oneconnect = "tmsh create ltm profile one-connect $MAU_$TEAM_$APP_NAME_oneconnect"
+
+
+
+
 // let http_compression = "create ltm profile http-compression $MAU_$TEAM_$APP_NAME_oneconnect"
 let node = "tmsh create ltm node $NODE_FQDN address $NODE_IP"
 let virtual_server = "tmsh create ltm virtual $MAU_$TEAM_$APP_NAME_80_vs destination $VS_IP:";
 function generateCode() {
-  output = oneconnect;
+  output = "";
+  if ( $("#createOneConnect").is(":checked") ) {
+      output = oneconnect + "\r\n" + output;
+  }
+
   output = output + "\r\n" + node;
   output = output + "\r\n" + virtual_server;
   output = output.replace(/\$mau/gi, document.getElementById('mau').value.toLowerCase());
