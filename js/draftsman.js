@@ -21,9 +21,13 @@ $(document).ready(function(){
       e.preventDefault();
       let output;
       let _vanity_url = $("#vanity_url").val();
+      let _monitor_protocol = $("#monitor_protocol").val();
+      let _monitor_uri = $("#monitor_uri").val();
       let _oneconnect = "create ltm profile one-connect $VANITY_URL_oneconnect";
       let _profile_http_compression = "create ltm profile http-compression $VANITY_URL_httpcompression defaults-from httpcompression";
-      let _node = "create ltm node $NODE_FQDN address $NODE_IP";
+      let _node = 'create ltm node $NODE_FQDN address $NODE_IP';
+      let _monitor = 'create ltm monitor $MONITOR_PROTOCOL $VANITY_URL_monitor send "GET /$MONITOR_URI HTTP/1.1\\r\\nHost: $VANITY_URL\\r\\nConnection: Close\\r\\n\\r\\n" recv "HTTP\/1\.(0|1) (2|3|401)"';
+      let _pool = "create ltm pool $NODE_FQDN address $NODE_IP";
       let virtual_server = "tmsh create ltm virtual $MAU_$TEAM_$APP_NAME_80_vs destination $VS_IP:";
       let poolMemberCount = 0;
       poolMemberCount = $(":input[id^=pool_member_ip_]").length;
@@ -36,6 +40,11 @@ $(document).ready(function(){
       if ( $("#createHttpCompression").is(":checked") ) {
           output = output + "\r\n" + "# Create HTTP Compression Profile" + "\r\n";
           output = output + _profile_http_compression + "\r\n";
+      }
+
+      if ( $("#createPoolMonitor").is(":checked") ) {
+          output = output + "\r\n" + "# Create Pool Monitor" + "\r\n";
+          output = output + _monitor + "\r\n";
       }
 
       if ( poolMemberCount > 0 ) {
@@ -62,6 +71,8 @@ $(document).ready(function(){
 
       // Final replacement of global variables
       output = output.replace(/\$VANITY_URL/gi, _vanity_url);;
+      output = output.replace(/\$MONITOR_PROTOCOL/gi, _monitor_protocol);;
+      output = output.replace(/\$MONITOR_URI/gi, _monitor_uri);;
 
       // Output the generated commands
       $("#generatedCode").val(output);
