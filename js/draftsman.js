@@ -1,10 +1,20 @@
 let output;
-let oneconnect = "tmsh create ltm profile one-connect $MAU_$TEAM_$APP_NAME_oneconnect"
+
+let oneconnect = "create ltm profile one-connect $VANITY_URL_oneconnect"
+
+
+
+
 // let http_compression = "create ltm profile http-compression $MAU_$TEAM_$APP_NAME_oneconnect"
 let node = "tmsh create ltm node $NODE_FQDN address $NODE_IP"
 let virtual_server = "tmsh create ltm virtual $MAU_$TEAM_$APP_NAME_80_vs destination $VS_IP:";
 function generateCode() {
-  output = oneconnect;
+  output = "tmsh" + "\r\n\r\n";
+  if ( $("#createOneConnect").is(":checked") ) {
+      output = output + "# Create OneConnect Profile" + "\r\n";
+      output = output + oneconnect + "\r\n";
+  }
+
   output = output + "\r\n" + node;
   output = output + "\r\n" + virtual_server;
   output = output.replace(/\$mau/gi, document.getElementById('mau').value.toLowerCase());
@@ -13,6 +23,8 @@ function generateCode() {
   output = output.replace(/\$node_fqdn/gi, document.getElementById('pool_member_fqdn_1').value);
   output = output.replace(/\$node_ip/gi, document.getElementById('pool_member_ip_1').value);
   output = output.replace(/\$vs_ip/gi, document.getElementById('vs_ip').value);
+
+  output = output.replace(/\$VANITY_URL/gi, $("#vanity_url").val());
   // output = virtual_server.replace("{{vs_mau}}", document.getElementById('inputMAU').value);
   // output = output.replace("{{vs_name}}", document.getElementById('inputURL').value);
   // output = output.replace("{{vs_addr}}", document.getElementById('inputVIP').value);
