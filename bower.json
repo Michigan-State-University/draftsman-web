@@ -1,0 +1,21 @@
+{
+  "name": "draftsman-web",
+  "authors": [
+    "Troy Murray <tm@msu.edu>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "bootstrap": "^3.3.7"
+  }
+}
