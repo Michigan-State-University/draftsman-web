@@ -7,8 +7,144 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="js/draftsman.js"></script>
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="all" rel="stylesheet">
+    <style media="screen">
+      body {
+        margin-top: 60px;
+      }
+    </style>
   </head>
   <body>
-    <h1>Draftsman - Web</h1>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Draftsman</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Onboarding</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    <div class="container">
+      <form>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="mau">Major Administrative Unit (MAU)</label>
+              <input type="text" class="form-control" id="mau" value="ITS">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="team_name">Team</label>
+              <input type="text" class="form-control" id="team_name" value="Security">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="application_name">Application Name</label>
+              <input type="text" class="form-control" id="application_name" value="Sentinel">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="vanity_url">Vanity URL</label>
+              <input type="text" class="form-control" id="vanity_url" value="login.test.itservices.msu.edu">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="vanity_uri">Vanity URI</label>
+              <input type="text" class="form-control" id="vanity_uri" value="">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="description">Application Description</label>
+              <input type="text" class="form-control" id="description" value="Sentinel Login Server">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="vs_ip">Virtual Server IP</label>
+              <input type="text" class="form-control" id="vs_ip" value="35.9.246.105">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="monitor_protocol">Monitor Protocol</label>
+              <input type="text" class="form-control" id="monitor_protocol" value="http">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="snat_pool">SNAT Pool</label>
+              <input type="text" class="form-control" id="snat_pool" value="iam_snat_pool">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="pool_member_fqdn_1">Pool Member FQDN</label>
+              <input type="text" class="form-control" id="pool_member_fqdn_1" value="idmtst1a1.itservices.msu.edu">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="pool_member_ip_1">Pool Member IP</label>
+              <input type="text" class="form-control" id="pool_member_ip_1" value="172.16.221.2">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="pool_member_port_1">Pool Member Port</label>
+              <input type="text" class="form-control" id="pool_member_port_1" value="8080">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="pool_member_fqdn_2">Pool Member FQDN</label>
+              <input type="text" class="form-control" id="pool_member_fqdn_2" value="idmtst1a2.itservices.msu.edu">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="pool_member_ip_2">Pool Member IP</label>
+              <input type="text" class="form-control" id="pool_member_ip_2" value="172.16.221.3">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="pool_member_port_3">Pool Member Port</label>
+              <input type="text" class="form-control" id="pool_member_port_3" value="8080">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="generatedCode">Code</label>
+              <textarea class="form-control" id="generatedCode" rows="8"></textarea>
+            </div>
+          </div>
+          <button type="button" class="btn btn-success" onclick="generateCode();">Generate</button>
+        </div>
+      </form>
+    </div>
   </body>
 </html>
