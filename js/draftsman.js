@@ -1,42 +1,69 @@
-let output;
+$(document).ready(function(){
+    let poolMemberNext = 0;
+    $(".add-more").click(function(e){
+        e.preventDefault();
+        var addToPoolMemberFqdn = "#pool_member_fqdn_" + poolMemberNext;
+        var addToPoolMemberIp = "#pool_member_ip_" + poolMemberNext;
+        var addToPoolMemberPort = "#pool_member_port_" + poolMemberNext;
+        poolMemberNext = poolMemberNext + 1;
+        var newFqdnIn = '<input autocomplete="off" type="text" class="form-control" id="pool_member_fqdn_' + poolMemberNext + '" value="">';
+        var newFqdnInput = $(newFqdnIn);
+        $(addToPoolMemberFqdn).after(newFqdnInput);
+        var newIpIn = '<input autocomplete="off" type="text" class="form-control" id="pool_member_ip_' + poolMemberNext + '" value="">';
+        var newIpInput = $(newIpIn);
+        $(addToPoolMemberIp).after(newIpInput);
+        var newPortIn = '<input autocomplete="off" type="text" class="form-control" id="pool_member_port_' + poolMemberNext + '" value="">';
+        var newPortInput = $(newPortIn);
+        $(addToPoolMemberPort).after(newPortInput);
+    });
 
-let oneconnect = "create ltm profile one-connect $VANITY_URL_oneconnect"
-let profile_http_compression = "create ltm profile http-compression $VANITY_URL_httpcompression defaults-from httpcompression"
+    $("#generateCode").click(function(e){
+      e.preventDefault();
+      let output;
+      let _vanity_url = $("#vanity_url").val();
+      let _oneconnect = "create ltm profile one-connect $VANITY_URL_oneconnect";
+      let _profile_http_compression = "create ltm profile http-compression $VANITY_URL_httpcompression defaults-from httpcompression";
+      let _node = "create ltm node $NODE_FQDN address $NODE_IP";
+      let virtual_server = "tmsh create ltm virtual $MAU_$TEAM_$APP_NAME_80_vs destination $VS_IP:";
+      let poolMemberCount = 0;
+      poolMemberCount = $(":input[id^=pool_member_ip_]").length;
 
+      output = "tmsh" + "\r\n";
+      if ( $("#createOneConnect").is(":checked") ) {
+          output = output + "\r\n" + "# Create OneConnect Profile" + "\r\n";
+          output = output + _oneconnect + "\r\n";
+      }
+      if ( $("#createHttpCompression").is(":checked") ) {
+          output = output + "\r\n" + "# Create HTTP Compression Profile" + "\r\n";
+          output = output + _profile_http_compression + "\r\n";
+      }
 
+      if ( poolMemberCount > 0 ) {
+        console.log("Pool Members Found: " + poolMemberCount);
+        output = output + "\r\n" + "# Create Nodes" + "\r\n";
+        let count = 0;
+        let fqdn = "";
+        let ip = "";
+        let node = "";
+        while (count < poolMemberCount) {
+          fqdn = $("#pool_member_fqdn_" + count).val();
+          fqdn_length = fqdn.trim().length;
+          ip = $("#pool_member_ip_" + count).val();
+          if ( fqdn_length > 0 ) {
+            node = _node;
+            node = node.replace(/\$NODE_FQDN/gi, fqdn);
+            node = node.replace(/\$NODE_IP/gi, ip);
+            output = output + node + "\r\n";
+          };
+          count++;
+        };
+        output = output + "\r\n";
+      };
 
+      // Final replacement of global variables
+      output = output.replace(/\$VANITY_URL/gi, _vanity_url);;
 
-// let http_compression = "create ltm profile http-compression $MAU_$TEAM_$APP_NAME_oneconnect"
-let node = "tmsh create ltm node $NODE_FQDN address $NODE_IP"
-let virtual_server = "tmsh create ltm virtual $MAU_$TEAM_$APP_NAME_80_vs destination $VS_IP:";
-function generateCode() {
-  output = "tmsh" + "\r\n\r\n";
-  if ( $("#createOneConnect").is(":checked") ) {
-      output = output + "# Create OneConnect Profile" + "\r\n";
-      output = output + oneconnect + "\r\n";
-  }
-  if ( $("#createHttpCompression").is(":checked") ) {
-      output = output + "# Create HTTP Compression Profile" + "\r\n";
-      output = output + profile_http_compression + "\r\n\r\n";
-  }
-
-  // output = output.replace(/\$mau/gi, document.getElementById('mau').value.toLowerCase());
-  // output = output.replace(/\$team/gi, document.getElementById('team_name').value.toLowerCase());
-  // output = output.replace(/\$app_name/gi, document.getElementById('application_name').value.toLowerCase());
-  // output = output.replace(/\$node_fqdn/gi, document.getElementById('pool_member_fqdn_1').value);
-  // output = output.replace(/\$node_ip/gi, document.getElementById('pool_member_ip_1').value);
-  // output = output.replace(/\$vs_ip/gi, document.getElementById('vs_ip').value);
-
-  output = output.replace(/\$VANITY_URL/gi, $("#vanity_url").val());
-  // output = virtual_server.replace("{{vs_mau}}", document.getElementById('inputMAU').value);
-  // output = output.replace("{{vs_name}}", document.getElementById('inputURL').value);
-  // output = output.replace("{{vs_addr}}", document.getElementById('inputVIP').value);
-
-  document.getElementById('generatedCode').value="";
-  document.getElementById('generatedCode').value=output;
-
-  // tmsh create ltm node <node name> address <IP address>
-  // tmsh create ltm pool <pool name> members add { <node name>:<port> }
-
-
-};
+      // Output the generated commands
+      $("#generatedCode").val(output);
+    });
+});
