@@ -39,7 +39,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="vanity_url">Vanity URL</label>
-              <input type="text" class="form-control" id="vanity_url" value="no.valid.domain.edu">
+              <input type="text" class="form-control" id="vanity_url" value="cio.msu.edu">
             </div>
           </div>
           <div class="col-md-4">
@@ -113,13 +113,19 @@
                       Options
                   </legend>
                   <label>
+                    <input type="checkbox" name="createNode" id="createNode" checked="true"> Create Node
+                  </label>
+                  <label>
+                    <input type="checkbox" name="createPoolMonitor" id="createPoolMonitor" checked="true"> Create Pool Monitor
+                  </label>
+                  <label>
+                    <input type="checkbox" name="createPool" id="createPool" checked="true"> Create Pool
+                  </label>
+                  <label>
                     <input type="checkbox" name="createOneConnect" id="createOneConnect" checked="true"> Create OneConnect Profile
                   </label>
                   <label>
                     <input type="checkbox" name="createHttpCompression" id="createHttpCompression" checked="true"> Create HTTP Compression Profile
-                  </label>
-                  <label>
-                    <input type="checkbox" name="createPoolMonitor" id="createPoolMonitor" checked="true"> Create Pool Monitor
                   </label>
                 </fieldset>
                 </div>
