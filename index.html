@@ -51,12 +51,12 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="description">Application Description</label>
-              <input type="text" class="form-control" id="description" value="Sentinel Login Server">
+              <input type="text" class="form-control" id="vs_description" value="Sentinel Login Server">
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="monitor_protocol">Monitor Protocol</label>
               <select class="form-control" id="monitor_protocol">
@@ -126,6 +126,9 @@
                   </label>
                   <label>
                     <input type="checkbox" name="createHttpCompression" id="createHttpCompression" checked="true"> Create HTTP Compression Profile
+                  </label>
+                  <label>
+                    <input type="checkbox" name="createVirtualServer" id="createVirtualServer" checked="true"> Create Virtual Server
                   </label>
                 </fieldset>
                 </div>
