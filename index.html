@@ -39,23 +39,9 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="vanity_url">Vanity URL</label>
-              <input type="text" class="form-control" id="vanity_url" value="no.valid.domain.edu">
+              <input type="text" class="form-control" id="vanity_url" value="cio.msu.edu">
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="vanity_uri">Vanity URI</label>
-              <input type="text" class="form-control" id="vanity_uri" value="">
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="description">Application Description</label>
-              <input type="text" class="form-control" id="description" value="Sentinel Login Server">
-            </div>
-          </div>
-        </div>
-        <div class="row">
           <div class="col-md-4">
             <div class="form-group">
               <label for="vs_ip">Virtual Server IP</label>
@@ -64,54 +50,57 @@
           </div>
           <div class="col-md-4">
             <div class="form-group">
+              <label for="description">Application Description</label>
+              <input type="text" class="form-control" id="vs_description" value="Sentinel Login Server">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
               <label for="monitor_protocol">Monitor Protocol</label>
-              <input type="text" class="form-control" id="monitor_protocol" value="http">
+              <select class="form-control" id="monitor_protocol">
+                <option>http</option>
+                <option>https</option>
+                <option>tcp</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="monitor_protocol">Monitor URI</label>
+              <input type="text" class="form-control" id="monitor_uri" value="">
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               <label for="snat_pool">SNAT Pool</label>
-              <input type="text" class="form-control" id="snat_pool" value="iam_snat_pool">
+              <input type="text" class="form-control" id="vs_snat_pool" value="local">
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
-              <label for="pool_member_fqdn_1">Pool Member FQDN</label>
-              <input type="text" class="form-control" id="pool_member_fqdn_1" value="idmtst1a1.itservices.msu.edu">
+              <label for="pool_member_fqdn">Pool Member FQDN</label>
+              <input autocomplete="off" type="text" class="form-control" id="pool_member_fqdn_0" value="idmtst1a1.itservices.msu.edu">
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
-              <label for="pool_member_ip_1">Pool Member IP</label>
-              <input type="text" class="form-control" id="pool_member_ip_1" value="172.16.221.2">
+              <label for="pool_member_ip">Pool Member IP</label>
+              <input autocomplete="off" type="text" class="form-control" id="pool_member_ip_0" value="172.16.221.2">
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="form-group">
-              <label for="pool_member_port_1">Pool Member Port</label>
-              <input type="text" class="form-control" id="pool_member_port_1" value="8080">
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="pool_member_fqdn_2">Pool Member FQDN</label>
-              <input type="text" class="form-control" id="pool_member_fqdn_2" value="idmtst1a2.itservices.msu.edu">
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="pool_member_ip_2">Pool Member IP</label>
-              <input type="text" class="form-control" id="pool_member_ip_2" value="172.16.221.3">
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="pool_member_port_3">Pool Member Port</label>
-              <input type="text" class="form-control" id="pool_member_port_3" value="8080">
+              <label for="pool_member_port">Pool Member Port</label>
+              <div class="input-group">
+                <input autocomplete="off" type="text" class="form-control" id="pool_member_port_0" value="8080">
+                <span class="input-group-btn">
+                  <button class="btn btn-default add-more" type="button"><span class="glyphicon glyphicon-plus " aria-hidden="true"></span></button>
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -124,10 +113,22 @@
                       Options
                   </legend>
                   <label>
+                    <input type="checkbox" name="createNode" id="createNode" checked="true"> Create Node
+                  </label>
+                  <label>
+                    <input type="checkbox" name="createPoolMonitor" id="createPoolMonitor" checked="true"> Create Pool Monitor
+                  </label>
+                  <label>
+                    <input type="checkbox" name="createPool" id="createPool" checked="true"> Create Pool
+                  </label>
+                  <label>
                     <input type="checkbox" name="createOneConnect" id="createOneConnect" checked="true"> Create OneConnect Profile
                   </label>
                   <label>
                     <input type="checkbox" name="createHttpCompression" id="createHttpCompression" checked="true"> Create HTTP Compression Profile
+                  </label>
+                  <label>
+                    <input type="checkbox" name="createVirtualServer" id="createVirtualServer" checked="true"> Create Virtual Server
                   </label>
                 </fieldset>
                 </div>
@@ -141,7 +142,7 @@
               <textarea class="form-control" id="generatedCode" rows="8"></textarea>
             </div>
           </div>
-          <button type="button" class="btn btn-success" onclick="generateCode();">Generate</button>
+          <button type="button" class="btn btn-success" id="generateCode">Generate</button>
         </div>
       </form>
     </div>
