@@ -41,6 +41,10 @@ $(document).ready(function(){
 function code_generator() {
   let output;
   let _vanity_url = $("#vanity_url").val();
+  _vanity_url = _vanity_url.replace(/www./gi, "");;
+  let _vs_ip = $("#vs_ip").val();
+  let _vs_description = $("#vs_description").val();
+  let _vs_snat_pool = $("#vs_snat_pool").val();
   let _monitor_protocol = $("#monitor_protocol").val();
   let _monitor_uri = $("#monitor_uri").val();
   let _oneconnect = "create ltm profile one-connect $VANITY_URL_oneconnect";
@@ -49,7 +53,8 @@ function code_generator() {
   let _monitor = 'create ltm monitor $MONITOR_PROTOCOL $VANITY_URL_monitor send "GET /$MONITOR_URI HTTP/1.1\\r\\nHost: $VANITY_URL\\r\\nConnection: Close\\r\\n\\r\\n" recv "HTTP\/1\.(0|1) (2|3|401)"';
   let _pool = 'create ltm pool $VANITY_URL_pool monitor $VANITY_URL_monitor';
   let _pool_member = 'modify ltm pool $VANITY_URL_pool members add {$NODE_FQDN:$NODE_PORT} ';
-  let virtual_server = "tmsh create ltm virtual $MAU_$TEAM_$APP_NAME_80_vs destination $VS_IP:";
+  let _virtual_server_80 = 'create ltm virtual $VANITY_URL_80_vs destination $VS_IP:80 description "Campus - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-http { } oneconnect { } httpcompression { } } persist replace-all-with { _msu_encrypted_cookie { default yes } } fallback-persistence source_addr rules { /Common/_msu_enable_strict_transport_security /Common/_msu_jboss_admin_discard /Common/_msu_http_to_https_301_redirect }';
+  let _virtual_server_443 = 'create ltm virtual $VANITY_URL_443_vs destination $VS_IP:443 description "Campus - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-https { } $F5TMP_CLIENT_SSL_PROFILE { context clientside } oneconnect { } httpcompression { } } persist replace-all-with { _msu_encrypted_cookie { default yes } } fallback-persistence source_addr pool $VANITY_URL_pool rules { /Common/_msu_enable_strict_transport_security /Common/_msu_jboss_admin_discard /Common/_msu_remove_server_and_powered_by }';
   let poolMemberCount = 0;
   poolMemberCount = $(":input[id^=pool_member_ip_]").length;
 
@@ -116,12 +121,23 @@ function code_generator() {
       output = output + _profile_http_compression + "\r\n";
   }
 
+  if ( $("#createVirtualServer").is(":checked") ) {
+      output = output + "\r\n" + "# Create Virtual Server" + "\r\n";
+      output = output + _virtual_server_80 + "\r\n";
+      output = output + _virtual_server_443 + "\r\n";
+  }
+
+
+
 
 
   // Final replacement of global variables
   output = output.replace(/\$VANITY_URL/gi, _vanity_url);;
   output = output.replace(/\$MONITOR_PROTOCOL/gi, _monitor_protocol);;
   output = output.replace(/\$MONITOR_URI/gi, _monitor_uri);;
+  output = output.replace(/\$VS_IP/gi, _vs_ip);;
+  output = output.replace(/\$VS_DESCRIPTION/gi, _vs_description);;
+  output = output.replace(/\$VS_SNAT_POOL/gi, _vs_snat_pool);;
 
 
   // Output the generated commands
