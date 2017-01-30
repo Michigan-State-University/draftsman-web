@@ -49,7 +49,7 @@ function code_generator() {
   let _monitor_uri = $("#monitor_uri").val();
   let _oneconnect = "create ltm profile one-connect $VANITY_URL_oneconnect";
   let _profile_http_compression = "create ltm profile http-compression $VANITY_URL_httpcompression defaults-from httpcompression";
-  let _ssl_client = 'create ltm profile client-ssl $VANITY_URL_clientssl defaults-from clientssl-insecure-disable'
+  let _ssl_client = 'create ltm profile client-ssl $VANITY_URL_clientssl defaults-from clientssl-insecure-disable renegotiation disabled'
   let _node = 'create ltm node $NODE_FQDN address $NODE_IP';
   let _monitor = 'create ltm monitor $MONITOR_PROTOCOL $VANITY_URL_monitor send "GET /$MONITOR_URI HTTP/1.1\\r\\nHost: $VANITY_URL\\r\\nConnection: Close\\r\\n\\r\\n" recv "HTTP\/1\.(0|1) (2|3|401)"';
   let _pool = 'create ltm pool $VANITY_URL_pool monitor $VANITY_URL_monitor';
