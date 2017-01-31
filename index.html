@@ -2,6 +2,10 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Draftsman - Web</title>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -39,7 +43,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="vanity_url">Vanity URL</label>
-              <input type="text" class="form-control" id="vanity_url" value="cio.msu.edu">
+              <input type="text" class="form-control" id="vanity_url" value="draftsman.test.itservices.msu.edu">
             </div>
           </div>
           <div class="col-md-4">
@@ -51,7 +55,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="description">Application Description</label>
-              <input type="text" class="form-control" id="vs_description" value="Sentinel Login Server">
+              <input type="text" class="form-control" id="vs_description" value="Campus - Draftsman">
             </div>
           </div>
         </div>
@@ -130,6 +134,9 @@
                   <label>
                     <input type="checkbox" name="createVirtualServer" id="createVirtualServer" checked="true"> Create Virtual Server
                   </label>
+                  <label>
+                    <input type="checkbox" name="createClientSSL" id="createClientSSL" checked="true"> Create Client SSL
+                  </label>
                 </fieldset>
                 </div>
             </div>
@@ -141,8 +148,8 @@
               <label for="generatedCode">Code</label>
               <textarea class="form-control" id="generatedCode" rows="8"></textarea>
             </div>
+            <button type="button" class="btn btn-success" id="generateCode">Generate</button>
           </div>
-          <button type="button" class="btn btn-success" id="generateCode">Generate</button>
         </div>
       </form>
     </div>
