@@ -56,6 +56,7 @@ function code_generator() {
   var _pool_member = 'modify ltm pool $VANITY_URL_pool members add {$NODE_FQDN:$NODE_PORT} ';
   var _virtual_server_80 = 'create ltm virtual $VANITY_URL_80_vs destination $VS_IP:80 description "Campus - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-http { } $VANITY_URL_oneconnect { } $VANITY_URL_httpcompression { } } persist replace-all-with { _msu_encrypted_cookie { default yes } } fallback-persistence source_addr rules { /Common/_msu_http_to_https_301_redirect }';
   var _virtual_server_443 = 'create ltm virtual $VANITY_URL_443_vs destination $VS_IP:443 description "Campus - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-https { } $VANITY_URL_clientssl { context clientside } $VANITY_URL_oneconnect { } $VANITY_URL_httpcompression { } } persist replace-all-with { _msu_encrypted_cookie { default yes } } fallback-persistence source_addr pool $VANITY_URL_pool rules { /Common/_msu_enable_strict_transport_security /Common/_msu_jboss_admin_discard /Common/_msu_remove_server_and_powered_by }';
+  var _sys_save = 'save sys config';
   var poolMemberCount = 0;
   poolMemberCount = $(":input[id^=pool_member_ip_]").length;
 
@@ -133,7 +134,8 @@ function code_generator() {
       output = output + _virtual_server_443 + "\r\n";
   }
 
-
+  output = output + "\r\n" + "# Save Changes" + "\r\n";
+  output = output + _sys_save;
 
 
 
