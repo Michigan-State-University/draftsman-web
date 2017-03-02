@@ -58,6 +58,9 @@ function code_generator() {
   var _virtual_server_443 = 'create ltm virtual $VANITY_URL_443_vs destination $VS_IP:443 description "Campus - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-https { } $VANITY_URL_clientssl { context clientside } $VANITY_URL_oneconnect { } $VANITY_URL_httpcompression { } } persist replace-all-with { _msu_encrypted_cookie { default yes } } fallback-persistence source_addr pool $VANITY_URL_pool rules { /Common/_msu_enable_strict_transport_security /Common/_msu_jboss_admin_discard /Common/_msu_remove_server_and_powered_by }';
   var _sys_save = 'save sys config';
   var poolMemberCount = 0;
+  var ip = "";
+  var count = 0;
+  var fqdn = "";
   poolMemberCount = $(":input[id^=pool_member_ip_]").length;
 
   output = "tmsh" + "\r\n";
@@ -65,9 +68,9 @@ function code_generator() {
   if ( $("#createNode").is(":checked") ) {
     if ( poolMemberCount > 0 ) {
       output = output + "\r\n" + "# Create Nodes" + "\r\n";
-      var count = 0;
-      var fqdn = "";
-      var ip = "";
+      count = 0;
+      fqdn = "";
+      ip = "";
       var node = "";
       while (count < poolMemberCount) {
         fqdn = $("#pool_member_fqdn_" + count).val();
@@ -94,9 +97,9 @@ function code_generator() {
       output = output + _pool + "\r\n";
       if ( poolMemberCount > 0 ) {
         output = output + "\r\n" + "# Create Pool Members" + "\r\n";
-        var count = 0;
-        var fqdn = "";
-        var ip = "";
+        count = 0;
+        fqdn = "";
+        ip = "";
         var pool_member = "";
         while (count < poolMemberCount) {
           fqdn = $("#pool_member_fqdn_" + count).val();
