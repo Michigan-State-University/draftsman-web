@@ -50,7 +50,11 @@ function code_generator() {
   var _oneconnect = "create ltm profile one-connect $VANITY_URL_oneconnect";
   var _profile_http_compression = "create ltm profile http-compression $VANITY_URL_httpcompression defaults-from httpcompression";
   var _ssl_client = 'create ltm profile client-ssl $VANITY_URL_clientssl defaults-from clientssl-insecure-disable renegotiation disabled';
+<<<<<<< HEAD
   var _ssl_server_create = 'create ltm profile server-ssl $VANITY_URL_serverssl defaults-from serverssl';
+=======
+    var _ssl_server_create = 'create ltm profile server-ssl $VANITY_URL_serverssl defaults-from serverssl';
+>>>>>>> 051174bb20213158f65fe4bd8402825635d9f327
   var _ssl_server_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_serverssl { context serverside } } ';
   var _node = 'create ltm node $NODE_FQDN address $NODE_IP';
   var _monitor = 'create ltm monitor $MONITOR_PROTOCOL $VANITY_URL_monitor send "GET /$MONITOR_URI HTTP/1.1\\r\\nHost: $VANITY_URL\\r\\nConnection: Close\\r\\n\\r\\n" recv "HTTP\/1\.(0|1) (1|2|3|4)"';
