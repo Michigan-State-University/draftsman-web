@@ -50,6 +50,8 @@ function code_generator() {
   var _oneconnect = "create ltm profile one-connect $VANITY_URL_oneconnect";
   var _profile_http_compression = "create ltm profile http-compression $VANITY_URL_httpcompression defaults-from httpcompression";
   var _ssl_client = 'create ltm profile client-ssl $VANITY_URL_clientssl defaults-from clientssl-insecure-disable renegotiation disabled';
+  var _ssl_server_create = 'create ltm profile server-ssl $VANITY_URL_serverssl defaults-from serverssl';
+  var _ssl_server_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_serverssl { context serverside } } ';
   var _node = 'create ltm node $NODE_FQDN address $NODE_IP';
   var _monitor = 'create ltm monitor $MONITOR_PROTOCOL $VANITY_URL_monitor send "GET /$MONITOR_URI HTTP/1.1\\r\\nHost: $VANITY_URL\\r\\nConnection: Close\\r\\n\\r\\n" recv "HTTP\/1\.(0|1) (1|2|3|4)"';
   var _pool = 'create ltm pool $VANITY_URL_pool monitor $VANITY_URL_monitor';
@@ -133,8 +135,14 @@ function code_generator() {
 
   if ( $("#createVirtualServer").is(":checked") ) {
       output = output + "\r\n" + "# Create Virtual Server" + "\r\n";
-      output = output + _virtual_server_80 + "\r\n";
+      output = output + _virtual_server_80 + "\r\n\r\n";
       output = output + _virtual_server_443 + "\r\n";
+  }
+
+  if ( _monitor_protocol == "https" ) {
+    output = output + "\r\n" + "# Create and Assign Server SSL" + "\r\n";
+    output = output + _ssl_server_create + "\r\n";
+    output = output + _ssl_server_assign + "\r\n";
   }
 
   output = output + "\r\n" + "# Save Changes" + "\r\n";
