@@ -50,7 +50,7 @@ function code_generator() {
   var _oneconnect = "create ltm profile one-connect $VANITY_URL_oneconnect";
   var _profile_http_compression_create = "create ltm profile http-compression $VANITY_URL_httpcompression defaults-from httpcompression";
   var _profile_http_compression_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_httpcompression { } } ';
-  var _ssl_client = 'create ltm profile client-ssl $VANITY_URL_clientssl defaults-from clientssl-insecure-disable renegotiation disabled';
+  var _ssl_client = 'create ltm profile client-ssl $VANITY_URL_clientssl defaults-from _msu_clientssl_2017_03_09 renegotiation disabled';
   var _ssl_server_create = 'create ltm profile server-ssl $VANITY_URL_serverssl defaults-from serverssl';
   var _ssl_server_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_serverssl { context serverside } } ';
   var _node = 'create ltm node $NODE_FQDN address $NODE_IP';
@@ -67,6 +67,7 @@ function code_generator() {
   poolMemberCount = $(":input[id^=pool_member_ip_]").length;
 
   output = "tmsh" + "\r\n";
+  output = output + _sys_save + "\r\n";
 
   if ( $("#createNode").is(":checked") ) {
     if ( poolMemberCount > 0 ) {
@@ -165,3 +166,6 @@ function code_generator() {
   // Output the generated commands
   $("#generatedCode").val(output);
 }
+
+// PROD
+// run cm config-sync to-group EBS-Prd
