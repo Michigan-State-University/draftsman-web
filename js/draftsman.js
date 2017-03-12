@@ -50,6 +50,8 @@ function code_generator() {
   var _oneconnect = "create ltm profile one-connect $VANITY_URL_oneconnect";
   var _profile_http_compression_create = "create ltm profile http-compression $VANITY_URL_httpcompression defaults-from httpcompression";
   var _profile_http_compression_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_httpcompression { } } ';
+  var _profile_http2_create = "create ltm profile http2 $VANITY_URL_http2 defaults-from http2";
+  var _profile_http2_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_http2 { } } ';
   var _ssl_client = 'create ltm profile client-ssl $VANITY_URL_clientssl defaults-from _msu_clientssl_2017_03_09 renegotiation disabled';
   var _ssl_server_create = 'create ltm profile server-ssl $VANITY_URL_serverssl defaults-from serverssl';
   var _ssl_server_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_serverssl { context serverside } } ';
@@ -146,6 +148,12 @@ function code_generator() {
       output = output + "\r\n" + "# Create and Assign HTTP Compression Profile" + "\r\n";
       output = output + _profile_http_compression_create + "\r\n";
       output = output + _profile_http_compression_assign + "\r\n";
+  }
+
+  if ( $("#createHttp2Profile").is(":checked") ) {
+      output = output + "\r\n" + "# Create and Assign HTTP/2 Profile" + "\r\n";
+      output = output + _profile_http2_create + "\r\n";
+      output = output + _profile_http2_assign + "\r\n";
   }
 
 
