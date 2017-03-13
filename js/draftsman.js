@@ -40,13 +40,12 @@ $(document).ready(function(){
 
 function code_generator() {
   var output;
-  var _vanity_url = $("#vanity_url").val();
-  _vanity_url = _vanity_url.replace(/www./gi, "");
-  var _vs_ip = $("#vs_ip").val();
-  var _vs_description = $("#vs_description").val();
+  var _vanity_url = $("#vanity_url").val().trim();
+  var _vs_ip = $("#vs_ip").val().trim();
+  var _vs_description = $("#vs_description").val().trim();
   var _vs_snat_pool = $("#vs_snat_pool").val();
   var _monitor_protocol = $("#monitor_protocol").val();
-  var _monitor_uri = $("#monitor_uri").val();
+  var _monitor_uri = $("#monitor_uri").val().trim();
   var _profile_oneconnect_create = 'create ltm profile one-connect $VANITY_URL_oneconnect';
   var _profile_oneconnect_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_oneconnect { } } ';
   var _profile_http_compression_create = "create ltm profile http-compression $VANITY_URL_httpcompression defaults-from httpcompression";
@@ -67,7 +66,24 @@ function code_generator() {
   var ip = "";
   var count = 0;
   var fqdn = "";
+
+  // Remove leading www. from vanity URL
+  _vanity_url = _vanity_url.replace(/www./gi, "");
+
+  // Determine count of pool members
   poolMemberCount = $(":input[id^=pool_member_ip_]").length;
+
+  // Remove a any leading forward slash
+  if ( _monitor_uri.length > 0 && _monitor_uri.charAt(0) == "/") {
+    console.log('true');
+    _monitor_uri = _monitor_uri.slice(1);
+    console.log(_monitor_uri);
+  } else {
+    console.log('false');
+    console.log(_monitor_uri.length);
+    console.log(_monitor_uri.charAt(0));
+    console.log(_monitor_uri);
+  }
 
   output = "tmsh" + "\r\n";
   output = output + _sys_save + "\r\n";
@@ -80,9 +96,9 @@ function code_generator() {
       ip = "";
       var node = "";
       while (count < poolMemberCount) {
-        fqdn = $("#pool_member_fqdn_" + count).val();
+        fqdn = $("#pool_member_fqdn_" + count).val().trim();
         fqdn_length = fqdn.trim().length;
-        ip = $("#pool_member_ip_" + count).val();
+        ip = $("#pool_member_ip_" + count).val().trim();
         if ( fqdn_length > 0 ) {
           node = _node;
           node = node.replace(/\$NODE_FQDN/gi, fqdn);
