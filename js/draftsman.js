@@ -75,14 +75,7 @@ function code_generator() {
 
   // Remove a any leading forward slash
   if ( _monitor_uri.length > 0 && _monitor_uri.charAt(0) == "/") {
-    console.log('true');
     _monitor_uri = _monitor_uri.slice(1);
-    console.log(_monitor_uri);
-  } else {
-    console.log('false');
-    console.log(_monitor_uri.length);
-    console.log(_monitor_uri.charAt(0));
-    console.log(_monitor_uri);
   }
 
   output = "tmsh" + "\r\n";
