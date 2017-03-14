@@ -42,30 +42,42 @@
     <div class="container">
       <form>
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <label for="vanity_url">Vanity URL</label>
               <input type="text" class="form-control" id="vanity_url" value="www.mysite.edu">
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="vs_ip">Virtual Server IP</label>
               <input type="text" class="form-control" id="vs_ip" value="1.1.1.1">
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="description">Application Description</label>
               <input type="text" class="form-control" id="vs_description" value="Draftsman">
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-2">
             <div class="form-group">
               <label for="traffice_source">Traffic Source</label>
               <select class="form-control" id="traffice_source">
                 <option>Campus</option>
                 <option>World</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="environment">Environment</label>
+              <select class="form-control" id="environment">
+                <option value=""></option>
+                <option value="production">Production</option>
+                <option value="qa">QA</option>
+                <option value="test">Test</option>
+                <option value="dev">Dev</option>
               </select>
             </div>
           </div>
@@ -81,7 +93,7 @@
               </select>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="monitor_protocol">Monitor URI</label>
               <input type="text" class="form-control" id="monitor_uri" value="">
@@ -90,7 +102,8 @@
           <div class="col-md-4">
             <div class="form-group">
               <label for="snat_pool">SNAT Pool</label>
-              <input type="text" class="form-control" id="vs_snat_pool" value="local">
+              <select class="form-control" id="vs_snat_pool">
+              </select>
             </div>
           </div>
         </div>
@@ -163,7 +176,8 @@
               <textarea class="form-control" id="generatedCode" rows="8"></textarea>
             </div>
             <button type="button" class="btn btn-success" id="generateCode">Generate Code</button>
-            <button type="button" class="btn btn-success" id="generateCyberSecurity">Firewall Request</button>
+            <button type="button" class="btn btn-success" id="generateCyberSecurityIngress">Ingress Firewall Request</button>
+            <!-- <button type="button" class="btn btn-success" id="generateCyberSecurityEgress">Egress Firewall Request</button> -->
           </div>
         </div>
       </form>

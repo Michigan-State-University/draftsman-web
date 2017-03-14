@@ -37,7 +37,7 @@ $(document).ready(function(){
       code_generator();
     });
 
-    $("#generateCyberSecurity").click(function(e){
+    $("#generateCyberSecurityIngress").click(function(e){
       e.preventDefault();
       code_generator();
       var url = "https://itservicedesk.msu.edu/CAisd/pdmweb.exe?OP=CREATE_NEW+FACTORY=cr+PRESET=category:pcat:408216@@group:DAFF5B05f069794DB03A9141D12CCAA0@@affected_resource:479C27B63AB30841BB9A3AB42E17ABE1@@z_source:400011@@urgency:7@@impact:9@@z_owned_hd:016CF040906DFE4AB4CBE93EF5619F14@@rootcause:400014@@z_country_origin:254@@summary:$SUMMARY@@description:$DESCRIPTION";
@@ -59,6 +59,83 @@ $(document).ready(function(){
       $("#generateCyberSecurity").removeClass('btn-success').addClass('btn-default');
       window.open(url);
     });
+
+    $("#generateCyberSecurityEgress").click(function(e){
+      e.preventDefault();
+      // var f5_ip_source = $("#vs_snat_pool").val();
+      // console.log(f5_ip_source);
+      // var env = $("#environment").val();
+      // var snat = $("#vs_snat_pool").val();
+      // var tmp;
+      // env = eval(env);
+      // snat = eval(snat);
+      // if ( env[0].display == snat ) {
+      //   console.log('yes');
+      // }
+      // code_generator();
+      // var url = "https://itservicedesk.msu.edu/CAisd/pdmweb.exe?OP=CREATE_NEW+FACTORY=cr+PRESET=category:pcat:408216@@group:DAFF5B05f069794DB03A9141D12CCAA0@@affected_resource:479C27B63AB30841BB9A3AB42E17ABE1@@z_source:400011@@urgency:7@@impact:9@@z_owned_hd:016CF040906DFE4AB4CBE93EF5619F14@@rootcause:400014@@z_country_origin:254@@summary:$SUMMARY@@description:$DESCRIPTION";
+      // var summary = "Service: Managed Firewall Services | Service Option: Managed Firewall Services";
+      // var description = "";
+      // var _vanity_url = $("#vanity_url").val().trim();
+      // var _vs_ip = $("#vs_ip").val().trim();
+      // var _traffic_source = $("#traffice_source").val().trim();
+      // description = description + "Description = Onboard web application $VANITY_URL to F5 platform \r\n";
+      // description = description + "Source IP address and Name = $TRAFFIC_SOURCE \r\n";
+      // description = description + "Destination IP address and Name = $VS_IP \r\n";
+      // description = description + "Protocol = TCP \r\n";
+      // description = description + "Port Numbers = 80,443 \r\n";
+      // description = description.replace(/\$VANITY_URL/gi, _vanity_url);
+      // description = description.replace(/\$TRAFFIC_SOURCE/gi, _traffic_source);
+      // description = description.replace(/\$VS_IP/gi, _vs_ip);
+      // url = url.replace(/\$summary/gi, encodeURI(summary));
+      // url = url.replace(/\$DESCRIPTION/gi, encodeURI(description));
+      // $("#generateCyberSecurity").removeClass('btn-success').addClass('btn-default');
+      // window.open(url);
+    });
+
+    var production = [
+      { display: "local", value: "local", addresses: "35.9.244.20, 35.9.244.21, 35.9.244.22, 35.9.244.23, 35.9.244.24" },
+      { display: "iam_snat_pool", value: "iam_snat_pool", addresses: "35.9.244.20, 35.9.244.21, 35.9.245.140, 35.9.245.141"  }
+    ];
+    var qa = [
+      { display: "local", value: "local", addresses: "35.9.242.32, 35.9.242.120, 35.9.242.252, 35.9.242.33, 35.9.242.34, 35.9.242.35" },
+      { display: "iam_snat_pool", value: "iam_snat_pool", addresses: "35.9.242.32, 35.9.242.120, 35.9.242.252, 35.9.242.151, 35.9.242.152" }
+    ];
+    var test = [
+      { display: "local_test", value: "local_test", addresses: "35.9.240.151, 35.9.240.162, 35.9.240.205, 35.9.240.152, 35.9.240.153, 35.9.240.154" },
+      { display: "iam_snat_pool", value: "iam_snat_pool", addresses: "35.9.240.151, 35.9.240.162, 35.9.240.205, 35.9.240.221" }
+    ];
+    var dev = [
+      { display: "local", value: "local", addresses: "35.9.240.151, 35.9.240.162, 35.9.240.205, 35.9.240.33, 35.9.240.34, 35.9.240.35" },
+      { display: "iam_dev_snat_pool", value: "iam_dev_snat_pool", addresses: "35.9.240.151, 35.9.240.162, 35.9.240.205, 35.9.240.33, 35.9.240.34, 35.9.240.47" }
+    ];
+
+    $("#environment").change(function() {
+      var parent = $(this).val();
+      switch(parent){
+        case 'production':
+          list(production);
+          break;
+        case 'qa':
+          list(qa);
+          break;
+        case 'test':
+          list(test);
+          break;
+        case 'dev':
+          list(dev);
+          break;
+      }
+    });
+
+    function list(array_list) {
+      $("#vs_snat_pool").html("");
+      $(array_list).each(function (i) {
+        $("#vs_snat_pool").append("<option value="+array_list[i].value+">"+array_list[i].display+"</option>");
+      });
+
+    }
+
 });
 
 function code_generator() {
