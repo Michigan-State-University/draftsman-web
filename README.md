@@ -31,9 +31,12 @@ Install node using Homebrew
 
 `brew install node`
 
-Install live-server
+Install dependencies
 
-`npm install -g live-server`
+```
+npm install -g live-server gulp-cli
+npm install gulp -D
+```
 
 Clone the repository to a local directory
 
