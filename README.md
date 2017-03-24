@@ -17,19 +17,20 @@ Clone the repository to a directory that your local web server can serve content
 
 `git clone https://gitlab.msu.edu/f5-adc-support/draftsman-web.git`
 
-Start your web server and browse to the address and port that your local web server is serving content from. This will vary by operating system and web server preference.
+Start your web server and browse to the address and port that your local web server is serving content from. This will vary by operating system and web server preference. The following sections discuss how to do this on various platforms.
 
 
-### Easy macOS Development Setup
+### macOS Development Setup
 Open a Terminal window
 
-Install Homebrew
+Optional: Install Homebrew (this package manager makes it easy to install and update other packages)
 
 `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
 
-Install node using Homebrew
+Required: Install node
 
-`brew install node`
+Using Homebrew then `brew install node`
+Non-Homebrew then grab the latest LTS from https://nodejs.org/en/download/
 
 Install dependencies
 
