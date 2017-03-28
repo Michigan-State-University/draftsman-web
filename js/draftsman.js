@@ -158,10 +158,11 @@ function code_generator() {
   var _ssl_server_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_serverssl { context serverside } } ';
   var _node = 'create ltm node $NODE_FQDN address $NODE_IP';
   var _monitor = 'create ltm monitor $MONITOR_PROTOCOL $VANITY_URL_$MONITOR_PROTOCOL_monitor send "GET /$MONITOR_URI HTTP/1.1\\r\\nHost: $VANITY_URL\\r\\nConnection: Close\\r\\n\\r\\n" recv "HTTP\/1\.(0|1) (1|2|3|4)"';
-  var _pool = 'create ltm pool $VANITY_URL_pool monitor $VANITY_URL_$MONITOR_PROTOCOL_monitor';
+  var _pool = 'create ltm pool $VANITY_URL_$PORT_pool monitor $VANITY_URL_$MONITOR_PROTOCOL_monitor';
   var _pool_member = 'modify ltm pool $VANITY_URL_pool members add {$NODE_FQDN:$NODE_PORT} ';
+  var _pool_member_port = $("#pool_member_port_0").val();
   var _virtual_server_80 = 'create ltm virtual $VANITY_URL_80_vs destination $VS_IP:80 description "$TRAFFIC_SOURCE - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-http { } } persist replace-all-with { _msu_encrypted_cookie { default yes } } fallback-persistence source_addr rules { /Common/_msu_http_to_https_301_redirect }';
-  var _virtual_server_443 = 'create ltm virtual $VANITY_URL_443_vs destination $VS_IP:443 description "$TRAFFIC_SOURCE - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-https { } $VANITY_URL_clientssl { context clientside } } persist replace-all-with { _msu_encrypted_cookie { default yes } } fallback-persistence source_addr pool $VANITY_URL_pool rules { /Common/_msu_enable_strict_transport_security /Common/_msu_jboss_admin_discard /Common/_msu_remove_server_and_powered_by }';
+  var _virtual_server_443 = 'create ltm virtual $VANITY_URL_443_vs destination $VS_IP:443 description "$TRAFFIC_SOURCE - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-https { } $VANITY_URL_clientssl { context clientside } } persist replace-all-with { _msu_encrypted_cookie { default yes } } fallback-persistence source_addr pool $VANITY_URL_$PORT_pool rules { /Common/_msu_enable_strict_transport_security /Common/_msu_jboss_admin_discard /Common/_msu_remove_server_and_powered_by }';
   var _sys_save = 'save sys config';
   var poolMemberCount = 0;
   var ip = "";
@@ -282,6 +283,7 @@ function code_generator() {
   output = output.replace(/\$VS_DESCRIPTION/gi, _vs_description);
   output = output.replace(/\$VS_SNAT_POOL/gi, _vs_snat_pool);
   output = output.replace(/\$TRAFFIC_SOURCE/gi, _traffic_source );
+  output = output.replace(/\$PORT/gi, _pool_member_port);
 
 
   // Output the generated commands
