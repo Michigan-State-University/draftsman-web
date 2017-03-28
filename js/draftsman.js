@@ -271,8 +271,7 @@ function code_generator() {
 
 
   output = output + "\r\n" + "# Save Changes" + "\r\n";
-  output = output + _sys_save;
-
+  output = output + _sys_save + "\r\n";
 
 
   // Final replacement of global variables
