@@ -33,8 +33,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.html">App Onboarding</a></li>
-            <li><a href="vcmp.html">vCMP Config</a></li>
+            <li><a href="index.html">App Onboarding</a></li>
+            <li class="active"><a href="vcmp.html">vCMP Config</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -42,72 +42,93 @@
     <div class="container">
       <form>
         <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="vanity_url">Vanity URL</label>
-              <input type="text" class="form-control" id="vanity_url" value="www.mysite.edu">
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group">
-              <label for="vs_ip">Virtual Server IP</label>
-              <input type="text" class="form-control" id="vs_ip" value="1.1.1.1">
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group">
-              <label for="description">Application Description</label>
-              <input type="text" class="form-control" id="vs_description" value="Draftsman">
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group">
-              <label for="traffice_source">Traffic Source</label>
-              <select class="form-control" id="traffice_source">
-                <option>Campus</option>
-                <option>World</option>
-              </select>
-            </div>
-          </div>
           <div class="col-md-2">
             <div class="form-group">
               <label for="environment">Environment</label>
               <select class="form-control" id="environment">
-                <option value=""></option>
-                <option value="production">Production</option>
-                <option value="qa">QA</option>
-                <option value="test">Test</option>
+                <option value="lab">Lab</option>
                 <option value="dev">Dev</option>
+                <option value="qa">QA</option>
+                <option value="production">Production</option>
               </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="direction">Direction</label>
+              <select class="form-control" id="direction">
+                <option value="north">North</option>
+                <option value="south">South</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="admin_password">Admin Password</label>
+              <input type="text" class="form-control" id="admin_password" value="AD4P29vMkQ">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="config_sync_group">Config Sync Group</label>
+              <input type="text" class="form-control" id="config_sync_group" value="">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <h3>Device A</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_a_datacenter">Data Center</label>
+              <input type="text" class="form-control" id="device_a_datacenter" value="adm">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_a_mgmt_ip">Management IP</label>
+              <input type="text" class="form-control" id="device_a_mgmt_ip" value="1.1.10.2">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_a_configsync_ip">ConfigSync IP</label>
+              <input type="text" class="form-control" id="device_a_configsync_ip" value="1.1.11.2">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_a_vlan_a_static_ip">VLAN A Static IP</label>
+              <input type="text" class="form-control" id="device_a_vlan_a_static_ip" value="1.1.1.3">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_a_vlan_b_static_ip">VLAN B Static IP</label>
+              <input type="text" class="form-control" id="device_a_vlan_b_static_ip" value="1.1.2.3">
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-2">
             <div class="form-group">
-              <label for="monitor_protocol">Monitor Protocol</label>
-              <select class="form-control" id="monitor_protocol">
-                <option>http</option>
-                <option>https</option>
-                <option>tcp</option>
-              </select>
+              <label for="device_a_vlan_a_float_ip">VLAN A Floating IP</label>
+              <input type="text" class="form-control" id="device_a_vlan_a_float_ip" value="1.1.1.2">
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-2">
             <div class="form-group">
-              <label for="monitor_protocol">Monitor URI</label>
-              <input type="text" class="form-control" id="monitor_uri" value="">
+              <label for="device_a_vlan_b_float_ip">VLAN B Floating IP</label>
+              <input type="text" class="form-control" id="device_a_vlan_b_float_ip" value="1.1.2.2">
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label for="snat_pool">SNAT Pool</label>
-              <select class="form-control" id="vs_snat_pool">
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="row">
           <div class="col-md-4">
             <div class="form-group">
               <label for="pool_member_fqdn">Pool Member FQDN</label>
@@ -129,6 +150,43 @@
                   <button class="btn btn-default add-more" type="button"><span class="glyphicon glyphicon-plus " aria-hidden="true"></span></button>
                 </span>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <h3>Device B</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_b_datacenter">Data Center</label>
+              <input type="text" class="form-control" id="device_b_datacenter" value="cc">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_b_mgmt_ip">Management IP</label>
+              <input type="text" class="form-control" id="device_b_mgmt_ip" value="1.1.10.2">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_b_configsync_ip">ConfigSync IP</label>
+              <input type="text" class="form-control" id="device_b_configsync_ip" value="1.1.11.2">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_b_vlan_a_static_ip">VLAN A Static IP</label>
+              <input type="text" class="form-control" id="device_b_vlan_a_static_ip" value="1.1.1.3">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_b_vlan_b_static_ip">VLAN B Static IP</label>
+              <input type="text" class="form-control" id="device_b_vlan_b_static_ip" value="1.1.2.3">
             </div>
           </div>
         </div>
@@ -170,14 +228,17 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <div class="form-group">
-              <label for="generatedCode">Code</label>
-              <textarea class="form-control" id="generatedCode" rows="10"></textarea>
+              <label for="device_a_tmsh">Device A Commands</label>
+              <textarea class="form-control" id="device_a_tmsh" rows="10"></textarea>
             </div>
-            <button type="button" class="btn btn-success" id="generateCode">Generate Code</button>
-            <button type="button" class="btn btn-success" id="generateCyberSecurityIngress">Ingress Firewall Request</button>
-            <!-- <button type="button" class="btn btn-success" id="generateCyberSecurityEgress">Egress Firewall Request</button> -->
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="device_b_tmsh">Device B Commands</label>
+              <textarea class="form-control" id="device_b_tmsh" rows="10"></textarea>
+            </div>
           </div>
         </div>
       </form>
