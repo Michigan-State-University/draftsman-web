@@ -1,0 +1,102 @@
+$(document).ready(function (){
+  $('.form-control').on('blur', function(e){
+    code_generator();
+  });
+
+});
+
+function code_generator() {
+  var device_a = "";
+  var device_b = "";
+  var _environment = $("#environment").val().trim();
+  var _direction = $("#direction").val().trim();
+  var _admin_password = $("#admin_password").val().trim();
+  var _config_sync_group = "f5-$ENV-$DIR";
+  var _sys_save = 'save sys config';
+  var config_sync_group = _config_sync_group;
+  var _dns_servers = "modify sys dns name-servers add { 35.8.0.4 35.8.0.5 35.8.0.6 35.8.0.7 35.8.0.8 35.8.0.9 }";
+  var _ntp_servers = "modify sys ntp servers add { ntp.msu.edu }";
+  var _disable_gui = "modify sys global-settings gui-setup disabled";
+  var _disable_dhcp = "modify sys db dhclient.mgmt { value \"disable\" }";
+  var _create_vlan_external = "tmsh create net vlan external interfaces add { 1.1 }";
+  var _create_vlan_internal = "tmsh create net vlan external interfaces add { 1.2 }";
+  var _assign_external_static_ip = "create net self $F5_EXTERNAL_STATIC_IP address $F5_EXTERNAL_STATIC_IP/24 traffic-group traffic-group-local-only vlan external allow-service default";
+  var _assign_external_float_ip = "create net self $F5_EXTERNAL_FLOAT_IP address $F5_EXTERNAL_FLOAT_IP/24 traffic-group traffic-group-1 vlan external allow-service default";
+  var _assign_internal_static_ip = "create net self $F5_INTERNAL_STATIC_IP address $F5_INTERNAL_STATIC_IP/24 traffic-group traffic-group-local-only vlan internal allow-service default";
+  var _assign_internal_float_ip = "create net self $F5_INTERNAL_FLOAT_IP address $F5_INTERNAL_FLOAT_IP/24 traffic-group traffic-group-1 vlan internal allow-service default";
+  var _create_snat = "create ltm snatpool $F5_SNAT_POOL_NAME members add { $F5_SNAT_POOL_ADDR }";
+  var _dev_a_dc = $("#device_a_datacenter").val().trim();
+  var _dev_b_dc = $("#device_b_datacenter").val().trim();
+  var _device_a_mgmt_ip = $("#device_a_mgmt_ip").val().trim();
+  var _device_b_mgmt_ip = $("#device_b_mgmt_ip").val().trim();
+  var device_a_configsync_ip = $("#device_a_configsync_ip").val().trim();
+  var device_b_configsync_ip = $("#device_b_configsync_ip").val().trim();
+  var device_a_vlan_a_static_ip = $("#device_a_vlan_a_static_ip").val().trim();
+  var device_a_vlan_b_static_ip = $("#device_a_vlan_b_static_ip").val().trim();
+  var device_b_vlan_a_static_ip = $("#device_b_vlan_a_static_ip").val().trim();
+  var device_b_vlan_b_static_ip = $("#device_b_vlan_b_static_ip").val().trim();
+  var device_a_vlan_a_float_ip = $("#device_a_vlan_a_float_ip").val().trim();
+  var device_a_vlan_b_float_ip = $("#device_a_vlan_b_float_ip").val().trim();
+  var device_a_name = "f5-$ENV-$DC-$DIR";
+  var device_b_name = "f5-$ENV-$DC-$DIR";
+  var device_a_hostname = "f5-$ENV-$DC-$DIR.itservices.msu.edu";
+  var device_b_hostname = "f5-$ENV-$DC-$DIR.itservices.msu.edu";
+
+
+  var _modify_root_pw = "modify auth password root";
+  var _modify_admin_pw = "modify auth user admin password '$ADMIN_PASSWORD'";
+  var _device_hostname = "modify sys global-settings hostname f5-$ENV-$DC-$DIR.itservices.msu.edu";
+
+
+  device_a = "tmsh" + "\r\n";
+  device_a = device_a + _sys_save + "\r\n";
+  device_a = device_a + _modify_root_pw + "\r\n";
+  device_a = device_a + _modify_admin_pw + "\r\n";
+  device_a = device_a + _device_hostname + "\r\n";
+  device_a = device_a + _dns_servers + "\r\n";
+  device_a = device_a + _ntp_servers + "\r\n";
+  device_a = device_a + _sys_save + "\r\n";
+  device_a = device_a + _disable_gui + "\r\n";
+  device_a = device_a + _disable_dhcp + "\r\n";
+  device_a = device_a + _create_vlan_external + "\r\n";
+  device_a = device_a + _create_vlan_internal + "\r\n";
+  device_a = device_a + _assign_external_static_ip + "\r\n";
+  device_a = device_a + _assign_external_float_ip + "\r\n";
+  device_a = device_a + _assign_internal_static_ip + "\r\n";
+  device_a = device_a + _assign_internal_float_ip + "\r\n";
+  device_a = device_a + _assign_internal_float_ip + "\r\n";
+  device_a = device_a + _create_snat + "\r\n";
+  device_a = device_a + _sys_save + "\r\n";
+
+  device_b = "tmsh" + "\r\n";
+  device_b = device_b + _sys_save + "\r\n";
+  device_b = device_b + _modify_root_pw + "\r\n";
+  device_b = device_b + _modify_admin_pw + "\r\n";
+  device_b = device_b + _device_hostname + "\r\n";
+  device_b = device_b + _dns_servers + "\r\n";
+  device_b = device_b + _ntp_servers + "\r\n";
+  device_b = device_b + _sys_save + "\r\n";
+  device_b = device_b + _disable_gui + "\r\n";
+  device_b = device_b + _disable_dhcp + "\r\n";
+  device_b = device_b + _create_vlan_external + "\r\n";
+  device_b = device_b + _create_vlan_internal + "\r\n";
+  device_b = device_b + _assign_external_static_ip + "\r\n";
+  device_b = device_b + _assign_internal_static_ip + "\r\n";
+  device_b = device_b + _sys_save + "\r\n";
+
+  config_sync_group = config_sync_group.replace(/\$ENV/gi, _environment);
+  config_sync_group = config_sync_group.replace(/\$DIR/gi, _direction);
+  device_a = device_a.replace(/\$ADMIN_PASSWORD/gi, _admin_password);
+  device_a = device_a.replace(/\$ENV/gi, _environment);
+  device_a = device_a.replace(/\$DIR/gi, _direction);
+  device_a = device_a.replace(/\$DC/gi, _dev_a_dc);
+
+  device_b = device_b.replace(/\$ADMIN_PASSWORD/gi, _admin_password);
+  device_b = device_b.replace(/\$DIR/gi, _direction);
+  device_b = device_b.replace(/\$ENV/gi, _environment);
+  device_b = device_b.replace(/\$DC/gi, _dev_b_dc);
+
+
+  $("#device_a_tmsh").val(device_a);
+  $("#device_b_tmsh").val(device_b);
+}
