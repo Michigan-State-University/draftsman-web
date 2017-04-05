@@ -68,7 +68,19 @@
               <input type="text" class="form-control" id="admin_password" value="AD4P29vMkQ">
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="mac_masquerade">MAC Masquerade</label>
+              <input type="text" class="form-control" id="mac_masquerade" value="02:01:d7:93:35:08">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="snat_pool">SNAT (space seperated)</label>
+              <input type="text" class="form-control" id="snat_pool" value="172.16.151.223 172.16.151.224">
+            </div>
+          </div>
+          <div class="col-md-4">
             <div class="form-group">
             </div>
           </div>
@@ -97,42 +109,30 @@
               <input type="text" class="form-control" id="device_a_configsync_ip" value="1.1.11.2">
             </div>
           </div>
-          <div class="col-md-2">
-            <div class="form-group">
-              <label for="device_a_vlan_a_static_ip">External Static IP</label>
-              <input type="text" class="form-control" id="device_a_vlan_a_static_ip" value="1.1.1.3">
-            </div>
-          </div>
-          <div class="col-md-2">
-            <div class="form-group">
-              <label for="device_a_vlan_b_static_ip">Internal Static IP</label>
-              <input type="text" class="form-control" id="device_a_vlan_b_static_ip" value="1.1.2.3">
-            </div>
-          </div>
         </div>
         <div class="row">
           <div class="col-md-2">
             <div class="form-group">
-              <label for="device_a_vlan_a_float_ip">External Floating IP</label>
-              <input type="text" class="form-control" id="device_a_vlan_a_float_ip" value="1.1.1.2">
+              <label for="device_a_external_static_ip">External Static IP</label>
+              <input type="text" class="form-control" id="device_a_external_static_ip" value="1.1.1.3">
             </div>
           </div>
           <div class="col-md-2">
             <div class="form-group">
-              <label for="device_a_vlan_b_float_ip">Internal Floating IP</label>
-              <input type="text" class="form-control" id="device_a_vlan_b_float_ip" value="1.1.2.2">
+              <label for="device_a_external_float_ip">External Floating IP</label>
+              <input type="text" class="form-control" id="device_a_external_float_ip" value="1.1.1.2">
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
-              <label for="pool_member_fqdn">Pool Member FQDN</label>
-              <input autocomplete="off" type="text" class="form-control" id="pool_member_fqdn_0" value="server1.company.local">
+              <label for="device_a_internal_static_ip">Internal Static IP</label>
+              <input type="text" class="form-control" id="device_a_internal_static_ip" value="1.1.2.3">
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-2">
             <div class="form-group">
-              <label for="pool_member_ip">Pool Member IP</label>
-              <input autocomplete="off" type="text" class="form-control" id="pool_member_ip_0" value="192.168.0.1">
+              <label for="device_a_internal_float_ip">Internal Floating IP</label>
+              <input type="text" class="form-control" id="device_a_internal_float_ip" value="1.1.2.2">
             </div>
           </div>
         </div>
@@ -162,14 +162,14 @@
           </div>
           <div class="col-md-2">
             <div class="form-group">
-              <label for="device_b_vlan_a_static_ip">External Static IP</label>
-              <input type="text" class="form-control" id="device_b_vlan_a_static_ip" value="1.1.1.3">
+              <label for="device_b_external_static_ip">External Static IP</label>
+              <input type="text" class="form-control" id="device_b_external_static_ip" value="1.1.1.3">
             </div>
           </div>
           <div class="col-md-2">
             <div class="form-group">
-              <label for="device_b_vlan_b_static_ip">Internal Static IP</label>
-              <input type="text" class="form-control" id="device_b_vlan_b_static_ip" value="1.1.2.3">
+              <label for="device_b_internal_static_ip">Internal Static IP</label>
+              <input type="text" class="form-control" id="device_b_internal_static_ip" value="1.1.2.3">
             </div>
           </div>
         </div>
@@ -177,13 +177,13 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="device_a_tmsh">Device A Commands</label>
-              <textarea class="form-control" id="device_a_tmsh" rows="10"></textarea>
+              <textarea class="form-control" id="device_a_tmsh" rows="20"></textarea>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="device_b_tmsh">Device B Commands</label>
-              <textarea class="form-control" id="device_b_tmsh" rows="10"></textarea>
+              <textarea class="form-control" id="device_b_tmsh" rows="20"></textarea>
             </div>
           </div>
         </div>
