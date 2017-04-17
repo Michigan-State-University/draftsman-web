@@ -58,7 +58,7 @@ function code_generator() {
   var _device_hostname = "modify sys global-settings hostname f5-$ENV-$DC-$DIR.itservices.msu.edu";
   var _trust_domain_delete = 'delete cm trust-domain all';
   var _trust_domain_rename = 'mv cm device bigip1 f5-$ENV-$DC-$DIR.itservices.msu.edu';
-  var _trust_domain_config = 'modify cm device f5-$ENV-$DC-$DIR.itservices.msu.edu configsync-ip $F5_IP_CONFIGSYNC unicast-address { { effective-ip $F5_IP_CONFIGSYNC effective-port 1026 ip $F5_IP_CONFIGSYNC } }';
+  var _trust_domain_config = 'modify cm device f5-$ENV-$DC-$DIR.itservices.msu.edu configsync-ip $F5_IP_CONFIGSYNC mirror-ip $F5_IP_CONFIGSYNC unicast-address { { effective-ip $F5_IP_CONFIGSYNC effective-port 1026 ip $F5_IP_CONFIGSYNC } }';
   var _trust_domain_peer = 'modify cm trust-domain Root ca-devices add { $F5_IP_PEER_MGMT } name f5-$ENV-$DC-$DIR.itservices.msu.edu username admin password \'$ADMIN_PASSWORD\'';
   var _config_sync_create = 'create cm device-group $F5_CONFIG_SYNC_GROUP type sync-failover devices add { f5-$ENV-$DCA-$DIR.itservices.msu.edu f5-$ENV-$DCB-$DIR.itservices.msu.edu }';
   var _config_sync_init = 'run cm config-sync to-group $F5_CONFIG_SYNC_GROUP';
