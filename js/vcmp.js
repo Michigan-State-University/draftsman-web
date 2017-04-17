@@ -17,6 +17,7 @@ function code_generator() {
   var config_sync_group = _config_sync_group;
   var _dns_servers = "modify sys dns name-servers add { 35.8.0.4 35.8.0.5 35.8.0.6 35.8.0.7 35.8.0.8 35.8.0.9 }";
   var _ntp_servers = "modify sys ntp servers add { 35.8.0.10 }";
+  var _ntp_servers_timezone = "modify sys ntp timezone America/Detroit";
   var _disable_gui = "modify sys global-settings gui-setup disabled";
   var _disable_dhcp = "modify sys db dhclient.mgmt { value \"disable\" }";
   var _enable_smtp_delivery = 'modify sys outbound-smtp mailhub express.mail.msu.edu:25';
@@ -63,6 +64,7 @@ function code_generator() {
   device_a = device_a + _device_hostname + "\r\n";
   device_a = device_a + _dns_servers + "\r\n";
   device_a = device_a + _ntp_servers + "\r\n";
+  device_a = device_a + _ntp_servers_timezone + "\r\n";
   device_a = device_a + _enable_smtp_delivery + "\r\n";
   device_a = device_a + _sys_save + "\r\n";
   device_a = device_a + _disable_gui + "\r\n";
@@ -90,6 +92,7 @@ function code_generator() {
   device_b = device_b + _device_hostname + "\r\n";
   device_b = device_b + _dns_servers + "\r\n";
   device_b = device_b + _ntp_servers + "\r\n";
+  device_b = device_b + _ntp_servers_timezone + "\r\n";
   device_b = device_b + _enable_smtp_delivery + "\r\n";
   device_b = device_b + _sys_save + "\r\n";
   device_b = device_b + _disable_gui + "\r\n";
