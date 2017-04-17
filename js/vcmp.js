@@ -18,7 +18,7 @@ function code_generator() {
   var _dns_servers = "modify sys dns name-servers add { 35.8.0.4 35.8.0.5 35.8.0.6 35.8.0.7 35.8.0.8 35.8.0.9 }";
   var _ntp_servers = "modify sys ntp servers add { 35.8.0.10 }";
   var _ntp_servers_timezone = "modify sys ntp timezone America/Detroit";
-  var _splunk_servers = "modify sys syslog remote-servers add { 35.8.13.19 35.8.13.245 }";
+  var _splunk_servers = "modify sys syslog remote-servers replace-all-with { 35.8.13.19 { host 35.8.13.19 remote-port 514 } 35.8.13.245 { host 35.8.13.245 remote-port 514 } }";
   var _wug_community = "modify sys snmp communities add { smart }";
   var _wug_servers = "modify sys snmp allowed-addresses add { 35.8.6.6 35.8.6.7 35.8.6.5 35.8.6.9 35.8.2.60 }";
   var _wug_trap1 = "modify sys snmp traps add { i35_8_6_5 { community smart host 35.8.6.5 } }";
