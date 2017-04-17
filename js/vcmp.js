@@ -16,7 +16,7 @@ function code_generator() {
   var _sys_save = 'save sys config';
   var config_sync_group = _config_sync_group;
   var _dns_servers = "modify sys dns name-servers add { 35.8.0.4 35.8.0.5 35.8.0.6 35.8.0.7 35.8.0.8 35.8.0.9 }";
-  var _ntp_servers = "modify sys ntp servers add { ntp.msu.edu }";
+  var _ntp_servers = "modify sys ntp servers add { 35.8.0.10 }";
   var _disable_gui = "modify sys global-settings gui-setup disabled";
   var _disable_dhcp = "modify sys db dhclient.mgmt { value \"disable\" }";
   var _enable_smtp_delivery = 'modify sys outbound-smtp mailhub express.mail.msu.edu:25';
