@@ -15,8 +15,8 @@ function code_generator() {
   var _config_sync_group = "f5-$ENV-$DIR";
   var _sys_save = 'save /sys config';
   var config_sync_group = _config_sync_group;
-  var _dns_servers = "modify /sys dns name-servers add { 35.8.0.4 35.8.0.5 35.8.0.6 35.8.0.7 35.8.0.8 35.8.0.9 }";
-  var _ntp_servers = "modify /sys ntp servers add { 35.8.0.4 }";
+  var _dns_servers = "modify /sys dns name-servers replace-all-with { 35.8.0.4 35.8.0.5 35.8.0.6 35.8.0.7 35.8.0.8 35.8.0.9 }";
+  var _ntp_servers = "modify /sys ntp servers replace-all-with { 35.8.0.4 }";
   var _disable_gui = "modify /sys global-settings gui-setup disabled";
   var _disable_dhcp = "modify /sys db dhclient.mgmt { value \"disable\" }";
   var _enable_smtp_delivery = 'modify /sys outbound-smtp mailhub express.mail.msu.edu:25';
@@ -64,7 +64,6 @@ function code_generator() {
   device_a = device_a + _dns_servers + "\r\n";
   device_a = device_a + _ntp_servers + "\r\n";
   device_a = device_a + _enable_smtp_delivery + "\r\n";
-  device_a = device_a + _sys_save + "\r\n";
   device_a = device_a + _disable_gui + "\r\n";
   device_a = device_a + _disable_dhcp + "\r\n";
   device_a = device_a + _create_vlan_external + "\r\n";
@@ -78,6 +77,7 @@ function code_generator() {
   device_a = device_a + _trust_domain_rename + "\r\n";
   device_a = device_a + _trust_domain_config + "\r\n";
   device_a = device_a + _mac_masquerade_addr + "\r\n";
+  device_a = device_a + _sys_save + "\r\n";
   device_a = device_a + "####  COMPLETE DEVICE B SETUP BEFORE PROCEEDING! ####" + "\r\n";
   device_a = device_a + _trust_domain_peer + "\r\n";
   device_a = device_a + _config_sync_create + "\r\n";
@@ -92,13 +92,13 @@ function code_generator() {
   device_b = device_b + _dns_servers + "\r\n";
   device_b = device_b + _ntp_servers + "\r\n";
   device_b = device_b + _enable_smtp_delivery + "\r\n";
-  device_b = device_b + _sys_save + "\r\n";
   device_b = device_b + _disable_gui + "\r\n";
   device_b = device_b + _disable_dhcp + "\r\n";
   device_b = device_b + _create_vlan_external + "\r\n";
   device_b = device_b + _create_vlan_internal + "\r\n";
   device_b = device_b + _assign_external_static_ip + "\r\n";
   device_b = device_b + _assign_internal_static_ip + "\r\n";
+  device_b = device_b + _trust_domain_config + "\r\n";
   device_b = device_b + _sys_save + "\r\n";
 
 
