@@ -93,6 +93,60 @@ $(document).ready(function(){
       // window.open(url);
     });
 
+    $("#generateChangeOrder").click(function(e){
+      e.preventDefault();
+      code_generator();
+      var url = "https://itservicedesk.msu.edu/CAisd/pdmweb.exe?OP=CREATE_NEW+FACTORY=chg+PRESET=summary:$SUMMARY@@description:$DESCRIPTION@@external_system_ticket:$EXTERNAL_SYSTEM_TICKET@@organization:AB0F29529166F143BC0A7ACC93C76BC8@@category:400036@@group:ECBFDA4F58AE9247850BAD933C5C1786@@chgtype:400005@@impact:2@@affected_contact:2FB0115E8D00C94C852F61493BA9E93B@@requestor:2FB266AABC05874CB240831DFB773C20@@business_case:$BUSINESS_CASE@@effort:$IMPLEMENTATION_PLAN@@backout_plan:$BACKOUT_PLAN";
+      var summary = "F5 - Onboard the website / web application $VANITY_URL";
+      var description = "";
+      var business_case = "Strengthen stewardship\r\nSecurity";
+      var external_system_ticket = "F5ADC003, F5ADC005, F5ADC007, F5ADC009, F5ADC012, F5ADC014, F5ADC016, F5ADC019, F5ADC022";
+      var implementation_plan = "";
+      var backout_plan = "";
+      var _vanity_url = $("#vanity_url").val().trim();
+      var _vs_ip = $("#vs_ip").val().trim();
+      var _app_name = $("#vs_description").val().trim();
+      description = description + "Change:\r\n";
+      description = description + "Add configuration to onboard website / web application $APPNAME to F5 platform \r\n";
+      description = description + "No client traffic or service interruption occurs when this change is completed \r\n";
+      description = description + "Configuration will become active for user traffic once the customer schedules a standard DNS change to point $VANITY_URL at $VS_IP  \r\n";
+      description = description + "\r\n";
+      description = description + "Testing: \r\n";
+      description = description + "Once completed this configuration change will be tested using curl by technicians and the customer using a modified local hosts file. \r\n";
+      description = description + "\r\n";
+      description = description + "Risk: \r\n";
+      description = description + "Inaccurate configuration command \r\n";
+      description = description + "\r\n";
+      description = description + "Mitigation: \r\n";
+      description = description + "Configuration is built from standardized code generator to minimize invalid configuration and ensure consistency across applications. Invalid configuration statements would fail to execute and nothing would be created. \r\n";
+      implementation_plan = implementation_plan + "Configuration script created using Draftsman code generator \r\n";
+      implementation_plan = implementation_plan + "Log into the active device \r\n";
+      implementation_plan = implementation_plan + "Save existing configuration \r\n";
+      implementation_plan = implementation_plan + "Create pre-change archive of F5 configuration \r\n";
+      implementation_plan = implementation_plan + "Create new nodes \r\n";
+      implementation_plan = implementation_plan + "Create new pool monitor \r\n";
+      implementation_plan = implementation_plan + "Create new pool \r\n";
+      implementation_plan = implementation_plan + "Create new iRule \r\n";
+      implementation_plan = implementation_plan + "Create new SSL Client Profile \r\n";
+      implementation_plan = implementation_plan + "Create new SSL Server Profile \r\n";
+      implementation_plan = implementation_plan + "Create new virtual servers \r\n";
+      implementation_plan = implementation_plan + "Synchronize the configuration between the HA peers \r\n";
+      implementation_plan = implementation_plan + "Create post-change archive of F5 configuration \r\n";
+      backout_plan = backout_plan + "Remove configuration objects \r\n";
+      summary = summary.replace(/\$VANITY_URL/gi, _vanity_url);
+      description = description.replace(/\$VANITY_URL/gi, _vanity_url);
+      description = description.replace(/\$VS_IP/gi, _vs_ip);
+      description = description.replace(/\$APPNAME/gi, _app_name);
+      url = url.replace(/\$SUMMARY/gi, encodeURI(summary));
+      url = url.replace(/\$DESCRIPTION/gi, encodeURI(description));
+      url = url.replace(/\$EXTERNAL_SYSTEM_TICKET/gi, encodeURI(external_system_ticket));
+      url = url.replace(/\$BUSINESS_CASE/gi, encodeURI(business_case));
+      url = url.replace(/\$IMPLEMENTATION_PLAN/gi, encodeURI(implementation_plan));
+      url = url.replace(/\$BACKOUT_PLAN/gi, encodeURI(backout_plan));
+      $("#generateChangeOrder").removeClass('btn-success').addClass('btn-default');
+      window.open(url);
+    });
+
     var production = [
       { display: "local", value: "local", addresses: "35.9.244.20, 35.9.244.21, 35.9.244.22, 35.9.244.23, 35.9.244.24" },
       { display: "iam_snat_pool", value: "iam_snat_pool", addresses: "35.9.244.20, 35.9.244.21, 35.9.245.140, 35.9.245.141"  }
