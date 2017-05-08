@@ -154,7 +154,7 @@ function code_generator() {
   var _profile_http2_create = "create ltm profile http2 $VANITY_URL_http2 defaults-from http2";
   var _profile_http2_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_http2 { } } ';
   var _ssl_client = 'create ltm profile client-ssl $VANITY_URL_clientssl defaults-from _msu_clientssl_2017_03_09 renegotiation disabled';
-  var _ssl_server_create = 'create ltm profile server-ssl $VANITY_URL_serverssl defaults-from serverssl';
+  var _ssl_server_create = 'create ltm profile server-ssl $VANITY_URL_serverssl defaults-from serverssl-insecure-compatible';
   var _ssl_server_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_serverssl { context serverside } } ';
   var _node = 'create ltm node $NODE_FQDN address $NODE_IP';
   var _monitor = 'create ltm monitor $MONITOR_PROTOCOL $VANITY_URL_$MONITOR_PROTOCOL_monitor send "GET /$MONITOR_URI HTTP/1.1\\r\\nHost: $VANITY_URL\\r\\nConnection: Close\\r\\n\\r\\n" recv "HTTP\/1\.(0|1) (1|2|3|4)"';
