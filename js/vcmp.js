@@ -12,6 +12,9 @@ function code_generator() {
   var _direction = $("#direction").val().trim();
   var _admin_password = $("#admin_password").val().trim();
   var _mac_masquerade = $("#mac_masquerade").val().trim();
+  var _external_vlan = $("#external_vlan").val().trim();
+  var _internal_vlan = $("#internal_vlan").val().trim();
+  var _ha_vlan = $("#ha_vlan").val().trim();
   var _config_sync_group = "f5-$ENV-$DIR";
   var _sys_save = 'save /sys config';
   var config_sync_group = _config_sync_group;
@@ -30,10 +33,11 @@ function code_generator() {
   var _enable_smtp_delivery = 'modify /sys outbound-smtp mailhub express.mail.msu.edu:25';
   var _create_vlan_external = 'create /net vlan external interfaces add { 1.1 }';
   var _create_vlan_internal = 'create /net vlan internal interfaces add { 1.2 }';
-  var _assign_external_static_ip = "create /net self $F5_EXTERNAL_STATIC_IP address $F5_EXTERNAL_STATIC_IP/24 traffic-group traffic-group-local-only vlan external allow-service default";
-  var _assign_external_float_ip = "create /net self $F5_EXTERNAL_FLOAT_IP address $F5_EXTERNAL_FLOAT_IP/24 traffic-group traffic-group-1 vlan external allow-service none";
-  var _assign_internal_static_ip = "create /net self $F5_INTERNAL_STATIC_IP address $F5_INTERNAL_STATIC_IP/24 traffic-group traffic-group-local-only vlan internal allow-service default";
-  var _assign_internal_float_ip = "create /net self $F5_INTERNAL_FLOAT_IP address $F5_INTERNAL_FLOAT_IP/24 traffic-group traffic-group-1 vlan internal allow-service none";
+  var _assign_external_static_ip = "create /net self $F5_EXTERNAL_STATIC_IP address $F5_EXTERNAL_STATIC_IP/24 traffic-group traffic-group-local-only vlan $F5_EXTERNAL_VLAN allow-service default";
+  var _assign_external_float_ip = "create /net self $F5_EXTERNAL_FLOAT_IP address $F5_EXTERNAL_FLOAT_IP/24 traffic-group traffic-group-1 vlan $F5_EXTERNAL_VLAN allow-service none";
+  var _assign_internal_static_ip = "create /net self $F5_INTERNAL_STATIC_IP address $F5_INTERNAL_STATIC_IP/24 traffic-group traffic-group-local-only vlan $F5_INTERNAL_VLAN allow-service default";
+  var _assign_internal_float_ip = "create /net self $F5_INTERNAL_FLOAT_IP address $F5_INTERNAL_FLOAT_IP/24 traffic-group traffic-group-1 vlan $F5_INTERNAL_VLAN allow-service none";
+  var _assign_ha_static_ip = "create /net self $F5_IP_CONFIGSYNC address $F5_IP_CONFIGSYNC/24 traffic-group traffic-group-local-only vlan $F5_HA_VLAN allow-service default";
   var _create_snat = "create /ltm snatpool local_snat_pool members add { $F5_SNAT_POOL_ADDR }";
   var snat_pool_addr = $("#snat_pool").val().trim();
   var _dev_a_dc = $("#device_a_datacenter").val().trim();
@@ -48,10 +52,19 @@ function code_generator() {
   var device_a_internal_float_ip = $("#device_a_internal_float_ip").val().trim();
   var device_b_external_static_ip = $("#device_b_external_static_ip").val().trim();
   var device_b_internal_static_ip = $("#device_b_internal_static_ip").val().trim();
+  var device_a_cluster_member_ip_1 = $("#device_a_cluster_member_ip_1").val().trim();
+  var device_a_cluster_member_ip_2 = $("#device_a_cluster_member_ip_2").val().trim();
+  var device_a_cluster_member_ip_3 = $("#device_a_cluster_member_ip_3").val().trim();
+  var device_a_cluster_member_ip_4 = $("#device_a_cluster_member_ip_4").val().trim();
+  var device_b_cluster_member_ip_1 = $("#device_b_cluster_member_ip_1").val().trim();
+  var device_b_cluster_member_ip_2 = $("#device_b_cluster_member_ip_2").val().trim();
+  var device_b_cluster_member_ip_3 = $("#device_b_cluster_member_ip_3").val().trim();
+  var device_b_cluster_member_ip_4 = $("#device_b_cluster_member_ip_4").val().trim();
   var device_a_name = "f5-$ENV-$DC-$DIR";
   var device_b_name = "f5-$ENV-$DC-$DIR";
   var device_a_hostname = "f5-$ENV-$DC-$DIR.itservices.msu.edu";
   var device_b_hostname = "f5-$ENV-$DC-$DIR.itservices.msu.edu";
+  var cluster_member_ip = 'modify sys cluster default members { 1 { address $F5_CLUSTER_MEMBER_1 } 2 { address $F5_CLUSTER_MEMBER_2 } 3 { address $F5_CLUSTER_MEMBER_3 } 4 { address $F5_CLUSTER_MEMBER_4 } }';
   var _mac_masquerade_addr = 'modify /cm traffic-group traffic-group-1 mac $F5_MAC_MASQUERADE';
   var _modify_root_pw = "modify /auth password root";
   var _modify_admin_pw = "modify /auth user admin password $ADMIN_PASSWORD";
@@ -68,7 +81,6 @@ function code_generator() {
   device_a = device_a + _sys_save + "\r\n";
   device_a = device_a + _modify_root_pw + "\r\n";
   device_a = device_a + _modify_admin_pw + "\r\n";
-  device_a = device_a + _device_hostname + "\r\n";
   device_a = device_a + _dns_servers + "\r\n";
   device_a = device_a + _ntp_servers + "\r\n";
   device_a = device_a + _ntp_servers_timezone + "\r\n";
@@ -82,17 +94,16 @@ function code_generator() {
   device_a = device_a + _enable_smtp_delivery + "\r\n";
   device_a = device_a + _disable_gui + "\r\n";
   device_a = device_a + _disable_dhcp + "\r\n";
-  device_a = device_a + _create_vlan_external + "\r\n";
-  device_a = device_a + _create_vlan_internal + "\r\n";
   device_a = device_a + _assign_external_static_ip + "\r\n";
   device_a = device_a + _assign_internal_static_ip + "\r\n";
+  device_a = device_a + _assign_ha_static_ip + "\r\n";
   device_a = device_a + _mac_masquerade_addr + "\r\n";
   device_a = device_a + _assign_external_float_ip + "\r\n";
   device_a = device_a + _assign_internal_float_ip + "\r\n";
   device_a = device_a + _create_snat + "\r\n";
   device_a = device_a + _trust_domain_delete + "\r\n";
-  device_a = device_a + _trust_domain_rename + "\r\n";
   device_a = device_a + _trust_domain_config + "\r\n";
+  device_a = device_a + cluster_member_ip + "\r\n";
   device_a = device_a + _sys_save + "\r\n";
   device_a = device_a + "####  COMPLETE DEVICE B SETUP BEFORE PROCEEDING! ####" + "\r\n";
   device_a = device_a + _trust_domain_peer + "\r\n";
@@ -104,7 +115,6 @@ function code_generator() {
   device_b = device_b + _sys_save + "\r\n";
   device_b = device_b + _modify_root_pw + "\r\n";
   device_b = device_b + _modify_admin_pw + "\r\n";
-  device_b = device_b + _device_hostname + "\r\n";
   device_b = device_b + _dns_servers + "\r\n";
   device_b = device_b + _ntp_servers + "\r\n";
   device_b = device_b + _ntp_servers_timezone + "\r\n";
@@ -118,13 +128,12 @@ function code_generator() {
   device_b = device_b + _enable_smtp_delivery + "\r\n";
   device_b = device_b + _disable_gui + "\r\n";
   device_b = device_b + _disable_dhcp + "\r\n";
-  device_b = device_b + _create_vlan_external + "\r\n";
-  device_b = device_b + _create_vlan_internal + "\r\n";
   device_b = device_b + _assign_external_static_ip + "\r\n";
   device_b = device_b + _assign_internal_static_ip + "\r\n";
+  device_b = device_b + _assign_ha_static_ip + "\r\n";
   device_b = device_b + _trust_domain_delete + "\r\n";
-  device_b = device_b + _trust_domain_rename + "\r\n";
   device_b = device_b + _trust_domain_config + "\r\n";
+  device_b = device_b + cluster_member_ip + "\r\n";
   device_b = device_b + _sys_save + "\r\n";
 
 
@@ -140,13 +149,21 @@ function code_generator() {
   device_a = device_a.replace(/\$DC/gi, _dev_a_dc);
   device_a = device_a.replace(/\$F5_EXTERNAL_STATIC_IP/gi, device_a_external_static_ip);
   device_a = device_a.replace(/\$F5_EXTERNAL_FLOAT_IP/gi, device_a_external_float_ip);
+  device_a = device_a.replace(/\$F5_EXTERNAL_VLAN/gi, _external_vlan);
   device_a = device_a.replace(/\$F5_INTERNAL_STATIC_IP/gi, device_a_internal_static_ip);
   device_a = device_a.replace(/\$F5_INTERNAL_FLOAT_IP/gi, device_a_internal_float_ip);
+  device_a = device_a.replace(/\$F5_INTERNAL_VLAN/gi, _internal_vlan);
+  device_a = device_a.replace(/\$F5_HA_VLAN/gi, _ha_vlan);
   device_a = device_a.replace(/\$F5_SNAT_POOL_ADDR/gi, snat_pool_addr);
   device_a = device_a.replace(/\$F5_IP_CONFIGSYNC/gi, device_a_configsync_ip);
   device_a = device_a.replace(/\$F5_IP_PEER_MGMT/gi, _device_b_mgmt_ip);
   device_a = device_a.replace(/\$F5_CONFIG_SYNC_GROUP/gi, config_sync_group);
   device_a = device_a.replace(/\$F5_MAC_MASQUERADE/gi, _mac_masquerade);
+  device_a = device_a.replace(/\$F5_CLUSTER_MEMBER_1/gi, device_a_cluster_member_ip_1);
+  device_a = device_a.replace(/\$F5_CLUSTER_MEMBER_2/gi, device_a_cluster_member_ip_2);
+  device_a = device_a.replace(/\$F5_CLUSTER_MEMBER_3/gi, device_a_cluster_member_ip_3);
+  device_a = device_a.replace(/\$F5_CLUSTER_MEMBER_4/gi, device_a_cluster_member_ip_4);
+
 
   device_b = device_b.replace(/\$DCA/gi, _dev_a_dc);
   device_b = device_b.replace(/\$DCB/gi, _dev_b_dc);
@@ -155,9 +172,16 @@ function code_generator() {
   device_b = device_b.replace(/\$ENV/gi, _environment);
   device_b = device_b.replace(/\$DC/gi, _dev_b_dc);
   device_b = device_b.replace(/\$F5_EXTERNAL_STATIC_IP/gi, device_b_external_static_ip);
+  device_b = device_b.replace(/\$F5_EXTERNAL_VLAN/gi, _external_vlan);
   device_b = device_b.replace(/\$F5_INTERNAL_STATIC_IP/gi, device_b_internal_static_ip);
+  device_b = device_b.replace(/\$F5_INTERNAL_VLAN/gi, _internal_vlan);
   device_b = device_b.replace(/\$F5_IP_CONFIGSYNC/gi, device_b_configsync_ip);
+  device_b = device_b.replace(/\$F5_HA_VLAN/gi, _ha_vlan);
   device_b = device_b.replace(/\$F5_MAC_MASQUERADE/gi, _mac_masquerade);
+  device_b = device_b.replace(/\$F5_CLUSTER_MEMBER_1/gi, device_b_cluster_member_ip_1);
+  device_b = device_b.replace(/\$F5_CLUSTER_MEMBER_2/gi, device_b_cluster_member_ip_2);
+  device_b = device_b.replace(/\$F5_CLUSTER_MEMBER_3/gi, device_b_cluster_member_ip_3);
+  device_b = device_b.replace(/\$F5_CLUSTER_MEMBER_4/gi, device_b_cluster_member_ip_4);
 
 
   $("#device_a_tmsh").val(device_a);

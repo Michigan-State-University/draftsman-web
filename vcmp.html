@@ -75,14 +75,10 @@
               <input type="text" class="form-control" id="mac_masquerade" value="02:01:d7:93:35:08">
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-4">
             <div class="form-group">
               <label for="snat_pool">SNAT (space seperated)</label>
               <input type="text" class="form-control" id="snat_pool" value="172.16.151.223 172.16.151.224">
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
             </div>
           </div>
         </div>
@@ -110,6 +106,25 @@
               <input type="text" class="form-control" id="device_a_configsync_ip" value="1.1.11.2">
             </div>
           </div>
+
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="external_vlan">External VLAN</label>
+              <input type="text" class="form-control" id="external_vlan" value="external">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="internal_vlan">Internal VLAN</label>
+              <input type="text" class="form-control" id="internal_vlan" value="internal">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="ha_vlan">HA VLAN</label>
+              <input type="text" class="form-control" id="ha_vlan" value="peerNet">
+            </div>
+          </div>
         </div>
         <div class="row">
           <div class="col-md-2">
@@ -134,6 +149,32 @@
             <div class="form-group">
               <label for="device_a_internal_float_ip">Internal Floating IP</label>
               <input type="text" class="form-control" id="device_a_internal_float_ip" value="1.1.2.2">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_a_cluster_member_ip_1">Slot 1 Cluster IP</label>
+              <input type="text" class="form-control" id="device_a_cluster_member_ip_1" value="">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_a_cluster_member_ip_2">Slot 2 Cluster IP</label>
+              <input type="text" class="form-control" id="device_a_cluster_member_ip_2" value="">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_a_cluster_member_ip_3">Slot 3 Cluster IP</label>
+              <input type="text" class="form-control" id="device_a_cluster_member_ip_3" value="">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_a_cluster_member_ip_4">Slot 4 Cluster IP</label>
+              <input type="text" class="form-control" id="device_a_cluster_member_ip_4" value="">
             </div>
           </div>
         </div>
@@ -171,6 +212,32 @@
             <div class="form-group">
               <label for="device_b_internal_static_ip">Internal Static IP</label>
               <input type="text" class="form-control" id="device_b_internal_static_ip" value="1.1.2.3">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_b_cluster_member_ip_1">Slot 1 Cluster IP</label>
+              <input type="text" class="form-control" id="device_b_cluster_member_ip_1" value="">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_b_cluster_member_ip_2">Slot 2 Cluster IP</label>
+              <input type="text" class="form-control" id="device_b_cluster_member_ip_2" value="">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_b_cluster_member_ip_3">Slot 3 Cluster IP</label>
+              <input type="text" class="form-control" id="device_b_cluster_member_ip_3" value="">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="device_b_cluster_member_ip_4">Slot 4 Cluster IP</label>
+              <input type="text" class="form-control" id="device_b_cluster_member_ip_4" value="">
             </div>
           </div>
         </div>
