@@ -46,7 +46,7 @@ $(document).ready(function(){
       var _vanity_url = $("#vanity_url").val().trim();
       var _vs_ip = $("#vs_ip").val().trim();
       var _traffic_source = $("#traffice_source").val().trim();
-      description = description + "Description = Onboard web application $VANITY_URL to F5 platform \r\n";
+      description = description + "Description = Onboard $VANITY_URL web application to F5 platform \r\n";
       description = description + "Source IP address and Name = $TRAFFIC_SOURCE \r\n";
       description = description + "Destination IP address and Name = $VS_IP \r\n";
       description = description + "Protocol = TCP \r\n";
@@ -97,7 +97,7 @@ $(document).ready(function(){
       e.preventDefault();
       code_generator();
       var url = "https://itservicedesk.msu.edu/CAisd/pdmweb.exe?OP=CREATE_NEW+FACTORY=chg+PRESET=summary:$SUMMARY@@description:$DESCRIPTION@@external_system_ticket:$EXTERNAL_SYSTEM_TICKET@@organization:AB0F29529166F143BC0A7ACC93C76BC8@@category:400036@@group:ECBFDA4F58AE9247850BAD933C5C1786@@chgtype:400005@@impact:2@@affected_contact:2FB0115E8D00C94C852F61493BA9E93B@@requestor:2FB266AABC05874CB240831DFB773C20@@business_case:$BUSINESS_CASE@@effort:$IMPLEMENTATION_PLAN@@backout_plan:$BACKOUT_PLAN";
-      var summary = "F5 - Onboard the website / web application $VANITY_URL";
+      var summary = "F5 - Onboard $VANITY_URL website / web application";
       var description = "";
       var business_case = "Strengthen stewardship\r\nSecurity";
       var external_system_ticket = "F5ADC003, F5ADC005, F5ADC007, F5ADC009, F5ADC012, F5ADC014, F5ADC016, F5ADC019, F5ADC022";
@@ -107,7 +107,7 @@ $(document).ready(function(){
       var _vs_ip = $("#vs_ip").val().trim();
       var _app_name = $("#vs_description").val().trim();
       description = description + "Change:\r\n";
-      description = description + "Add configuration to onboard website / web application $APPNAME to F5 platform \r\n";
+      description = description + "Add configuration to onboard $APPNAME website / web application to F5 platform \r\n";
       description = description + "No client traffic or service interruption occurs when this change is completed \r\n";
       description = description + "Configuration will become active for user traffic once the customer schedules a standard DNS change to point $VANITY_URL at $VS_IP  \r\n";
       description = description + "\r\n";
