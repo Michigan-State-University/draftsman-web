@@ -41,11 +41,12 @@ $(document).ready(function(){
       e.preventDefault();
       code_generator();
       var url = "https://itservicedesk.msu.edu/CAisd/pdmweb.exe?OP=CREATE_NEW+FACTORY=cr+PRESET=category:pcat:408216@@group:DAFF5B05f069794DB03A9141D12CCAA0@@affected_resource:479C27B63AB30841BB9A3AB42E17ABE1@@z_source:400011@@urgency:7@@impact:9@@z_owned_hd:016CF040906DFE4AB4CBE93EF5619F14@@rootcause:400014@@z_country_origin:254@@summary:$SUMMARY@@description:$DESCRIPTION";
-      var summary = "Service: Managed Firewall Services | Service Option: Managed Firewall Services";
+      var summary = "Service: Managed Firewall Services | Service Option: Managed Firewall Services | Onboard $VANITY_URL";
       var description = "";
       var _vanity_url = $("#vanity_url").val().trim();
       var _vs_ip = $("#vs_ip").val().trim();
       var _traffic_source = $("#traffice_source").val().trim();
+      summary = summary.replace(/\$VANITY_URL/gi, _vanity_url);
       description = description + "Description = Onboard $VANITY_URL web application to F5 platform \r\n";
       description = description + "Source IP address and Name = $TRAFFIC_SOURCE \r\n";
       description = description + "Destination IP address and Name = $VS_IP \r\n";
