@@ -137,6 +137,7 @@ $(document).ready(function(){
       description = description.replace(/\$VANITY_URL/gi, _vanity_url);
       description = description.replace(/\$VS_IP/gi, _vs_ip);
       description = description.replace(/\$APPNAME/gi, _app_name);
+      description = description.replace(/\&/gi, "and");
       url = url.replace(/\$SUMMARY/gi, encodeURI(summary));
       url = url.replace(/\$DESCRIPTION/gi, encodeURI(description));
       url = url.replace(/\$EXTERNAL_SYSTEM_TICKET/gi, encodeURI(external_system_ticket));
