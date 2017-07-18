@@ -203,6 +203,7 @@ function code_generator() {
   var _monitor_protocol = $("#monitor_protocol").val();
   var _monitor_uri = $("#monitor_uri").val().trim();
   var _traffic_source = $("#traffice_source").val().trim();
+  var _createComment = document.getElementById("createComment").checked;
   var _profile_oneconnect_create = 'create ltm profile one-connect $VANITY_URL_oneconnect';
   var _profile_oneconnect_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_oneconnect { } } ';
   var _profile_http_compression_create = "create ltm profile http-compression $VANITY_URL_httpcompression defaults-from httpcompression";
@@ -242,7 +243,7 @@ function code_generator() {
 
   if ( $("#createNode").is(":checked") ) {
     if ( poolMemberCount > 0 ) {
-      output = output + "\r\n" + "# Create Nodes" + "\r\n";
+      output = _createComment ? output + "\r\n" + "# Create Nodes" + "\r\n" : output ;
       count = 0;
       fqdn = "";
       ip = "";
@@ -263,15 +264,18 @@ function code_generator() {
   }
 
   if ( $("#createPoolMonitor").is(":checked") ) {
-      output = output + "\r\n" + "# Create Pool Monitor" + "\r\n";
+      // output = output + "\r\n" + "# Create Pool Monitor" + "\r\n";
+      output = _createComment ? output + "\r\n" + "# Create Pool Monitor" + "\r\n" : output ;
       output = output + _monitor + "\r\n";
   }
 
   if ( $("#createPool").is(":checked") ) {
-      output = output + "\r\n" + "# Create Pool" + "\r\n";
+      // output = output + "\r\n" + "# Create Pool" + "\r\n";
+      output = _createComment ? output + "\r\n" + "# Create Pool" + "\r\n" : output ;
       output = output + _pool + "\r\n";
       if ( poolMemberCount > 0 ) {
-        output = output + "\r\n" + "# Create Pool Members" + "\r\n";
+        // output = output + "\r\n" + "# Create Pool Members" + "\r\n";
+        output = _createComment ? output + "\r\n" + "# Create Pool Members" + "\r\n" : output ;
         count = 0;
         fqdn = "";
         ip = "";
@@ -292,49 +296,58 @@ function code_generator() {
   }
 
   if ( $("#createClientSSL").is(":checked") ) {
-      output = output + "\r\n" + "# Create Client SSL" + "\r\n";
+      // output = output + "\r\n" + "# Create Client SSL" + "\r\n";
+      output = _createComment ? output + "\r\n" + "# Create Client SSL" + "\r\n" : output ;
       output = output + _ssl_client + "\r\n";
   }
 
   if ( $("#createiRule").is(":checked") ) {
-      output = output + "\r\n" + "# Create iRule" + "\r\n";
+      // output = output + "\r\n" + "# Create iRule" + "\r\n";
+      output = _createComment ? output + "\r\n" + "# Create iRule" + "\r\n" : output ;
       output = output + "run util bash" + "\r\n";
       output = output + _base_irule + "\r\n";
       output = output + "exit" + "\r\n";
   }
 
   if ( $("#createVirtualServer").is(":checked") ) {
-      output = output + "\r\n" + "# Create Virtual Server" + "\r\n";
-      output = output + _virtual_server_80 + "\r\n\r\n";
+      // output = output + "\r\n" + "# Create Virtual Server" + "\r\n";
+      output = _createComment ? output + "\r\n" + "# Create HTTP Virtual Server" + "\r\n" : output ;
+      output = output + _virtual_server_80 + "\r\n";
+      output = _createComment ? output + "\r\n" + "# Create HTTPS Virtual Server" + "\r\n" : output ;
       output = output + _virtual_server_443 + "\r\n";
   }
 
   if ( _monitor_protocol == "https" ) {
-    output = output + "\r\n" + "# Create and Assign Server SSL" + "\r\n";
+    // output = output + "\r\n" + "# Create and Assign Server SSL" + "\r\n";
+    output = _createComment ? output + "\r\n" + "# Create and Assign Server SSL" + "\r\n" : output ;
     output = output + _ssl_server_create + "\r\n";
     output = output + _ssl_server_assign + "\r\n";
   }
 
   if ( $("#createHttpCompression").is(":checked") ) {
-      output = output + "\r\n" + "# Create and Assign HTTP Compression Profile" + "\r\n";
+      // output = output + "\r\n" + "# Create and Assign HTTP Compression Profile" + "\r\n";
+      output = _createComment ? output + "\r\n" + "# Create and Assign HTTP Compression Profile" + "\r\n" : output ;
       output = output + _profile_http_compression_create + "\r\n";
       output = output + _profile_http_compression_assign + "\r\n";
   }
 
   if ( $("#createHttp2Profile").is(":checked") ) {
-      output = output + "\r\n" + "# Create and Assign HTTP/2 Profile" + "\r\n";
+      // output = output + "\r\n" + "# Create and Assign HTTP/2 Profile" + "\r\n";
+      output = _createComment ? output + "\r\n" + "# Create and Assign HTTP/2 Profile" + "\r\n" : output ;
       output = output + _profile_http2_create + "\r\n";
       output = output + _profile_http2_assign + "\r\n";
   }
 
   if ( $("#createOneConnect").is(":checked") ) {
-      output = output + "\r\n" + "# Create and Assign OneConnect Profile" + "\r\n";
+      // output = output + "\r\n" + "# Create and Assign OneConnect Profile" + "\r\n";
+      output = _createComment ? output + "\r\n" + "# Create and Assign OneConnect Profile" + "\r\n" : output ;
       output = output + _profile_oneconnect_create + "\r\n";
       output = output + _profile_oneconnect_assign + "\r\n";
   }
 
 
-  output = output + "\r\n" + "# Save Changes" + "\r\n";
+  // output = output + "\r\n" + "# Save Changes" + "\r\n";
+  output = _createComment ? output + "\r\n" + "# Save Changes" + "\r\n" : output ;
   output = output + _sys_save + "\r\n";
 
 
