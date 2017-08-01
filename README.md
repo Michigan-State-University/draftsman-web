@@ -1,9 +1,9 @@
-# Draftsman Web Application.
+# Draftsman Web Application
 
 ## Purpose
 To create tooling to assist F5 Support teams for onboarding applications delivered through the F5 BIG-IP platform. This application can easily be run locally, on a dedicated server that can serve static content, or even the [Now platform](https://zeit.co/now) by Zeit.
 
-![Draftsman in action](https://cl.ly/3N0c23030M2h/Screen%20Recording%202017-07-31%20at%2010.15%20PM.gif "Draftsman in action")
+![Draftsman in action](https://cl.ly/0r3N0u221419/download/Screen%20Recording%202017-07-31%20at%2010.22%20PM.gif "Draftsman in action")
 
 
 ## Running Locally
@@ -21,3 +21,12 @@ To work with the project you will need:
 * Browser
 * Local web server
 * Text editor
+
+## Future Enhancements
+* Allow for user preferences to be set for things like client SSL profiles.
+* Provide a flag to enable / disable the firewall request or change order buttons
+* Allow for other service management integration
+
+## Caveats
+
+Some aspects of this application are specific to our environment, such as the firewall request generation and change order generation. 
