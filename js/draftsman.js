@@ -57,7 +57,46 @@ $(document).ready(function(){
       description = description.replace(/\$VS_IP/gi, _vs_ip);
       url = url.replace(/\$summary/gi, encodeURI(summary));
       url = url.replace(/\$DESCRIPTION/gi, encodeURI(description));
-      $("#generateCyberSecurity").removeClass('btn-success').addClass('btn-default');
+      $("#generateCyberSecurityIngress").removeClass('btn-success').addClass('btn-default');
+      window.open(url);
+    });
+
+    $("#generateCertificateRequest").click(function(e){
+      e.preventDefault();
+      code_generator();
+      var url = "https://itservicedesk.msu.edu/CAisd/pdmweb.exe?OP=CREATE_NEW+FACTORY=cr+PRESET=category:pcat:408218@@group:777364749C1249469A7CE1D3F45F7B57@@affected_resource:05AF1DFCFCD9154F979A527823AC0F85@@z_source:400011@@urgency:7@@impact:9@@z_owned_hd:016CF040906DFE4AB4CBE93EF5619F14@@rootcause:400014@@z_country_origin:254@@summary:$SUMMARY@@description:$DESCRIPTION";
+      var summary = "Service: SSL Certificates | Service Option: SSL Certificates | Onboard $VANITY_URL";
+      var description = "";
+      var _vanity_url = $("#vanity_url").val().trim();
+      var _vs_ip = $("#vs_ip").val().trim();
+      var _traffic_source = $("#traffice_source").val().trim();
+      summary = summary.replace(/\$VANITY_URL/gi, _vanity_url);
+      description = description + "Service: SSL Certificates , Service Option: SSL Certificates, End User Name: F5 Draftsman Application \r\n";
+      description = description + "\r\n\r\n\r\n\r\n";
+      description = description + "Form Fields from the original CA Service Catalog request: \r\n";
+      description = description + "\r\n\r\n";
+      description = description + "Service Option details \r\n";
+      description = description + "\r\n";
+      description = description + "Service Group = Request an Individual SSL Certificate \r\n";
+      description = description + "Requestor = F5 Draftsman Application \r\n";
+      description = description + "Phone Number = 15174320088 \r\n";
+      description = description + "Notification Email Address = ITS.DL.F5ADC@campusad.msu.edu \r\n";
+      description = description + "Title = Network Engineer \r\n";
+      description = description + "Department Name = IT SERVICES INFRASTRUCTURE SUPPORT \r\n";
+      description = description + "Department Address = 195 Crescent Rd \r\n";
+      description = description + "Server Type = Other \r\n";
+      description = description + "Certificate Common Name = $VANITY_URL \r\n";
+      description = description + "Certificate Type = SSL Certificate \r\n";
+      description = description + "Certificate Requested = 3 Year Certificate \r\n";
+      description = description + "Certificate Signing Request = \r\n";
+      description = description + "\r\n\r\n\r\n\r\n";
+      description = description + "More Info =  \r\n";
+      description = description + "\r\n";
+      description = description + "When you HTTParty, you must party hard!";
+      description = description.replace(/\$VANITY_URL/gi, _vanity_url);
+      url = url.replace(/\$summary/gi, encodeURI(summary));
+      url = url.replace(/\$DESCRIPTION/gi, encodeURI(description));
+      $("#generateCertificateRequest").removeClass('btn-success').addClass('btn-default');
       window.open(url);
     });
 
