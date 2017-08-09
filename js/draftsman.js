@@ -57,7 +57,7 @@ $(document).ready(function(){
       description = description.replace(/\$VS_IP/gi, _vs_ip);
       url = url.replace(/\$summary/gi, encodeURI(summary));
       url = url.replace(/\$DESCRIPTION/gi, encodeURI(description));
-      $("#generateCyberSecurity").removeClass('btn-success').addClass('btn-default');
+      $("#generateCyberSecurityIngress").removeClass('btn-success').addClass('btn-default');
       window.open(url);
     });
 
