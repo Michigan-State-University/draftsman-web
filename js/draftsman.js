@@ -72,9 +72,9 @@ $(document).ready(function(){
       var _traffic_source = $("#traffice_source").val().trim();
       summary = summary.replace(/\$VANITY_URL/gi, _vanity_url);
       description = description + "Service: SSL Certificates , Service Option: SSL Certificates, End User Name: F5 Draftsman Application \r\n";
-      description = description + "\r\n\r\n\r\n\r\n";
+      description = description + "\r\n";
       description = description + "Form Fields from the original CA Service Catalog request: \r\n";
-      description = description + "\r\n\r\n";
+      description = description + "\r\n";
       description = description + "Service Option details \r\n";
       description = description + "\r\n";
       description = description + "Service Group = Request an Individual SSL Certificate \r\n";
@@ -89,7 +89,7 @@ $(document).ready(function(){
       description = description + "Certificate Type = SSL Certificate \r\n";
       description = description + "Certificate Requested = 3 Year Certificate \r\n";
       description = description + "Certificate Signing Request = \r\n";
-      description = description + "\r\n\r\n\r\n\r\n";
+      description = description + "\r\n";
       description = description + "More Info =  \r\n";
       description = description + "\r\n";
       description = description + "When you HTTParty, you must party hard!";
