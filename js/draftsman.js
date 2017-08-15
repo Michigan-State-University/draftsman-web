@@ -243,6 +243,15 @@ function code_generator() {
   var _monitor_uri = $("#monitor_uri").val().trim();
   var _traffic_source = $("#traffice_source").val().trim();
   var _itsd = $("#itsd").val().trim();
+  if ( _itsd.length < 1 ) {
+    $("#itsd").parent().addClass("has-error").addClass("has-feedback");
+    $("#itsd-required").remove();
+    $("#itsd").after('<span id="itsd-required" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
+    return;
+  } else {
+    $("#itsd").parent().removeClass("has-error").removeClass("has-feedback");
+    $("#itsd-required").remove();
+  }
   var _createComment = document.getElementById("createComment").checked;
   var _profile_oneconnect_create = 'create /ltm profile one-connect $VANITY_URL_$ITSD_oneconnect';
   var _profile_oneconnect_assign = 'modify /ltm virtual $VANITY_URL_443_$ITSD_vs profiles add { $VANITY_URL_$ITSD_oneconnect { } } ';
