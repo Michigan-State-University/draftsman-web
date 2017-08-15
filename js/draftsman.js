@@ -247,15 +247,6 @@ function code_generator() {
   var _monitor_uri = $("#monitor_uri").val().trim();
   var _traffic_source = $("#traffice_source").val().trim();
   var _itsd = $("#itsd").val().trim();
-  if ( _itsd.length < 1 ) {
-    $("#itsd").parent().addClass("has-error").addClass("has-feedback");
-    $("#itsd-required").remove();
-    $("#itsd").after('<span id="itsd-required" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
-    return;
-  } else {
-    $("#itsd").parent().removeClass("has-error").removeClass("has-feedback");
-    $("#itsd-required").remove();
-  }
   var _createComment = document.getElementById("createComment").checked;
   var _profile_oneconnect_create = 'create /ltm profile one-connect $VANITY_URL_$ITSD_oneconnect';
   var _profile_oneconnect_assign = 'modify /ltm virtual $VANITY_URL_443_$ITSD_vs profiles add { $VANITY_URL_$ITSD_oneconnect { } } ';
@@ -283,6 +274,12 @@ function code_generator() {
   var count = 0;
   var fqdn = "";
   var snat = "";
+
+  $("#generatedCode").val(output);
+
+  if ( checkFormRequired() == false ) {
+    return;
+  }
 
   // Check to see if Automap was set
   if ( _vs_snat_pool == "automap" ) {
@@ -440,7 +437,41 @@ function code_generator() {
 
   // Output the generated commands
   $("#generatedCode").val(output);
-}
 
-// PROD
-// run cm config-sync to-group EBS-Prd
+  function checkFormRequired() {
+    var valid = true;
+    if ( $("#itsd").val().length < 1 ) {
+      $("#itsd").parent().addClass("has-error").addClass("has-feedback");
+      $("#itsd-required").remove();
+      $("#itsd").after('<span id="itsd-required" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
+      valid = false;
+    } else {
+      $("#itsd").parent().removeClass("has-error").removeClass("has-feedback");
+      $("#itsd-required").remove();
+    }
+
+    if ( $("#vs_description").val().length < 1 ) {
+      $("#vs_description").parent().addClass("has-error").addClass("has-feedback");
+      $("#vs_description-required").remove();
+      $("#vs_description").after('<span id="vs_description-required" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
+      valid = false;
+    } else {
+      $("#vs_description").parent().removeClass("has-error").removeClass("has-feedback");
+      $("#vs_description-required").remove();
+    }
+
+    if ( $("#environment").val().length < 1 ) {
+      $("#environment").parent().addClass("has-error").addClass("has-feedback");
+      $("#environment-required").remove();
+      $("#environment").after('<span id="environment-required" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
+      valid = false;
+    } else {
+      $("#environment").parent().removeClass("has-error").removeClass("has-feedback");
+      $("#environment-required").remove();
+    }
+
+    return valid;
+
+  }
+
+}
