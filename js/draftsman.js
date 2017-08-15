@@ -190,19 +190,23 @@ $(document).ready(function(){
 
     var production = [
       { display: "local", value: "local", addresses: "35.9.244.20, 35.9.244.21, 35.9.244.22, 35.9.244.23, 35.9.244.24" },
-      { display: "iam_snat_pool", value: "iam_snat_pool", addresses: "35.9.244.20, 35.9.244.21, 35.9.245.140, 35.9.245.141"  }
+      { display: "iam_snat_pool", value: "iam_snat_pool", addresses: "35.9.244.20, 35.9.244.21, 35.9.245.140, 35.9.245.141"  },
+      { display: "Automap", value: "automap", addresses: "" }
     ];
     var qa = [
       { display: "local", value: "local", addresses: "35.9.242.32, 35.9.242.120, 35.9.242.252, 35.9.242.33, 35.9.242.34, 35.9.242.35" },
-      { display: "iam_snat_pool", value: "iam_snat_pool", addresses: "35.9.242.32, 35.9.242.120, 35.9.242.252, 35.9.242.151, 35.9.242.152" }
+      { display: "iam_snat_pool", value: "iam_snat_pool", addresses: "35.9.242.32, 35.9.242.120, 35.9.242.252, 35.9.242.151, 35.9.242.152" },
+      { display: "Automap", value: "automap", addresses: "" }
     ];
     var test = [
       { display: "local_test", value: "local_test", addresses: "35.9.240.151, 35.9.240.162, 35.9.240.205, 35.9.240.152, 35.9.240.153, 35.9.240.154" },
-      { display: "iam_snat_pool", value: "iam_snat_pool", addresses: "35.9.240.151, 35.9.240.162, 35.9.240.205, 35.9.240.221" }
+      { display: "iam_snat_pool", value: "iam_snat_pool", addresses: "35.9.240.151, 35.9.240.162, 35.9.240.205, 35.9.240.221" },
+      { display: "Automap", value: "automap", addresses: "" }
     ];
     var dev = [
       { display: "local", value: "local", addresses: "35.9.240.151, 35.9.240.162, 35.9.240.205, 35.9.240.33, 35.9.240.34, 35.9.240.35" },
-      { display: "iam_dev_snat_pool", value: "iam_dev_snat_pool", addresses: "35.9.240.151, 35.9.240.162, 35.9.240.205, 35.9.240.33, 35.9.240.34, 35.9.240.47" }
+      { display: "iam_dev_snat_pool", value: "iam_dev_snat_pool", addresses: "35.9.240.151, 35.9.240.162, 35.9.240.205, 35.9.240.33, 35.9.240.34, 35.9.240.47" },
+      { display: "Automap", value: "automap", addresses: "" }
     ];
 
     $("#environment").change(function() {
@@ -269,13 +273,23 @@ function code_generator() {
   var _pool_member_port = $("#pool_member_port_0").val();
   var _base_irule = 'tmsh create /ltm rule $VANITY_URL_$ITSD_irule ""';
   var _default_persistence = 'default-persistence'; // _msu_encrypted_cookie
-  var _virtual_server_80 = 'create /ltm virtual $VANITY_URL_80_$ITSD_vs destination $VS_IP:80 description "$TRAFFIC_SOURCE - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-http { } } persist replace-all-with { $DEFAULTPERSISTENCE { default yes } } fallback-persistence source_addr rules { /Common/_msu_http_to_https_301_redirect }';
-  var _virtual_server_443 = 'create /ltm virtual $VANITY_URL_443_$ITSD_vs destination $VS_IP:443 description "$TRAFFIC_SOURCE - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-https { } $VANITY_URL_$ITSD_clientssl { context clientside } } persist replace-all-with { $DEFAULTPERSISTENCE { default yes } } fallback-persistence source_addr pool $VANITY_URL_$PORT_$ITSD_pool rules { /Common/_msu_enable_strict_transport_security /Common/_msu_jboss_admin_discard /Common/_msu_remove_server_and_powered_by /Common/_msu_insert-x-forwarded-headers /Common/$VANITY_URL_$ITSD_irule }';
+  var _virtual_server_80 = 'create /ltm virtual $VANITY_URL_80_$ITSD_vs destination $VS_IP:80 description "$TRAFFIC_SOURCE - $VS_DESCRIPTION" profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-http { } } persist replace-all-with { $DEFAULTPERSISTENCE { default yes } } fallback-persistence source_addr rules { /Common/_msu_http_to_https_301_redirect }';
+  var _virtual_server_443 = 'create /ltm virtual $VANITY_URL_443_$ITSD_vs destination $VS_IP:443 description "$TRAFFIC_SOURCE - $VS_DESCRIPTION" profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-https { } $VANITY_URL_$ITSD_clientssl { context clientside } } persist replace-all-with { $DEFAULTPERSISTENCE { default yes } } fallback-persistence source_addr pool $VANITY_URL_$PORT_$ITSD_pool rules { /Common/_msu_enable_strict_transport_security /Common/_msu_jboss_admin_discard /Common/_msu_remove_server_and_powered_by /Common/_msu_insert-x-forwarded-headers /Common/$VANITY_URL_$ITSD_irule }';
   var _sys_save = 'save /sys config';
   var poolMemberCount = 0;
   var ip = "";
   var count = 0;
   var fqdn = "";
+  var snat = "";
+
+  // Check to see if Automap was set
+  if ( _vs_snat_pool == "automap" ) {
+    snat = " source-address-translation { type $VS_SNAT_POOL }";
+  } else {
+    snat = " source-address-translation { type snat pool $VS_SNAT_POOL }";
+  }
+  _virtual_server_80 = _virtual_server_80 + snat;
+  _virtual_server_443 = _virtual_server_443 + snat;
 
   // Remove leading www. from vanity URL
   _vanity_url = _vanity_url.replace(/www./gi, "");
