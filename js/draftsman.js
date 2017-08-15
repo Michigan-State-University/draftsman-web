@@ -242,26 +242,27 @@ function code_generator() {
   var _monitor_protocol = $("#monitor_protocol").val();
   var _monitor_uri = $("#monitor_uri").val().trim();
   var _traffic_source = $("#traffice_source").val().trim();
+  var _itsd = $("#itsd").val().trim();
   var _createComment = document.getElementById("createComment").checked;
-  var _profile_oneconnect_create = 'create ltm profile one-connect $VANITY_URL_oneconnect';
-  var _profile_oneconnect_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_oneconnect { } } ';
-  var _profile_http_compression_create = "create ltm profile http-compression $VANITY_URL_httpcompression defaults-from httpcompression";
-  var _profile_http_compression_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_httpcompression { } } ';
-  var _profile_http2_create = "create ltm profile http2 $VANITY_URL_http2 defaults-from http2";
-  var _profile_http2_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_http2 { } } ';
-  var _ssl_client = 'create ltm profile client-ssl $VANITY_URL_clientssl defaults-from _msu_clientssl_2017_03_09 renegotiation disabled';
-  var _ssl_server_create = 'create ltm profile server-ssl $VANITY_URL_serverssl defaults-from serverssl-insecure-compatible';
-  var _ssl_server_assign = 'modify ltm virtual $VANITY_URL_443_vs profiles add { $VANITY_URL_serverssl { context serverside } } ';
-  var _node = 'create ltm node $NODE_FQDN address $NODE_IP';
-  var _monitor = 'create ltm monitor $MONITOR_PROTOCOL $VANITY_URL_$MONITOR_PROTOCOL_monitor send "GET /$MONITOR_URI HTTP/1.1\\r\\nHost: $VANITY_URL\\r\\nConnection: Close\\r\\n\\r\\n" recv "HTTP\/1\.(0|1) (1|2|3|4)"';
-  var _pool = 'create ltm pool $VANITY_URL_$PORT_pool monitor $VANITY_URL_$MONITOR_PROTOCOL_monitor';
-  var _pool_member = 'modify ltm pool $VANITY_URL_$PORT_pool members add {$NODE_FQDN:$NODE_PORT} ';
+  var _profile_oneconnect_create = 'create /ltm profile one-connect $VANITY_URL_$ITSD_oneconnect';
+  var _profile_oneconnect_assign = 'modify /ltm virtual $VANITY_URL_443_$ITSD_vs profiles add { $VANITY_URL_$ITSD_oneconnect { } } ';
+  var _profile_http_compression_create = "create /ltm profile http-compression $VANITY_URL_$ITSD_httpcompression defaults-from httpcompression";
+  var _profile_http_compression_assign = 'modify /ltm virtual $VANITY_URL_443_$ITSD_vs profiles add { $VANITY_URL_$ITSD_httpcompression { } } ';
+  var _profile_http2_create = "create /ltm profile http2 $VANITY_URL_$ITSD_http2 defaults-from http2";
+  var _profile_http2_assign = 'modify /ltm virtual $VANITY_URL_443_$ITSD_vs profiles add { $VANITY_URL_$ITSD_http2 { } } ';
+  var _ssl_client = 'create /ltm profile client-ssl $VANITY_URL_$ITSD_clientssl defaults-from _msu_clientssl_2017_03_09 renegotiation disabled';
+  var _ssl_server_create = 'create /ltm profile server-ssl $VANITY_URL_$ITSD_serverssl defaults-from serverssl-insecure-compatible';
+  var _ssl_server_assign = 'modify /ltm virtual $VANITY_URL_443_$ITSD_vs profiles add { $VANITY_URL_$ITSD_serverssl { context serverside } } ';
+  var _node = 'create /ltm node $NODE_FQDN address $NODE_IP';
+  var _monitor = 'create /ltm monitor $MONITOR_PROTOCOL $VANITY_URL_$MONITOR_PROTOCOL_$ITSD_monitor send "GET /$MONITOR_URI HTTP/1.1\\r\\nHost: $VANITY_URL\\r\\nConnection: Close\\r\\n\\r\\n" recv "HTTP\/1\.(0|1) (1|2|3|4)"';
+  var _pool = 'create /ltm pool $VANITY_URL_$PORT_$ITSD_pool monitor $VANITY_URL_$MONITOR_PROTOCOL_$ITSD_monitor';
+  var _pool_member = 'modify /ltm pool $VANITY_URL_$PORT_$ITSD_pool members add {$NODE_FQDN:$NODE_PORT} ';
   var _pool_member_port = $("#pool_member_port_0").val();
-  var _base_irule = 'tmsh create ltm rule $VANITY_URL_irule ""';
+  var _base_irule = 'tmsh create /ltm rule $VANITY_URL_$ITSD_irule ""';
   var _default_persistence = 'default-persistence'; // _msu_encrypted_cookie
-  var _virtual_server_80 = 'create ltm virtual $VANITY_URL_80_vs destination $VS_IP:80 description "$TRAFFIC_SOURCE - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-http { } } persist replace-all-with { $DEFAULTPERSISTENCE { default yes } } fallback-persistence source_addr rules { /Common/_msu_http_to_https_301_redirect }';
-  var _virtual_server_443 = 'create ltm virtual $VANITY_URL_443_vs destination $VS_IP:443 description "$TRAFFIC_SOURCE - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-https { } $VANITY_URL_clientssl { context clientside } } persist replace-all-with { $DEFAULTPERSISTENCE { default yes } } fallback-persistence source_addr pool $VANITY_URL_$PORT_pool rules { /Common/_msu_enable_strict_transport_security /Common/_msu_jboss_admin_discard /Common/_msu_remove_server_and_powered_by /Common/_msu_insert-x-forwarded-headers /Common/$VANITY_URL_irule }';
-  var _sys_save = 'save sys config';
+  var _virtual_server_80 = 'create /ltm virtual $VANITY_URL_80_$ITSD_vs destination $VS_IP:80 description "$TRAFFIC_SOURCE - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-http { } } persist replace-all-with { $DEFAULTPERSISTENCE { default yes } } fallback-persistence source_addr rules { /Common/_msu_http_to_https_301_redirect }';
+  var _virtual_server_443 = 'create /ltm virtual $VANITY_URL_443_$ITSD_vs destination $VS_IP:443 description "$TRAFFIC_SOURCE - $VS_DESCRIPTION" source-address-translation { pool $VS_SNAT_POOL type snat } profiles add { mptcp-mobile-optimized { context clientside } tcp-lan-optimized { context serverside } default-https { } $VANITY_URL_$ITSD_clientssl { context clientside } } persist replace-all-with { $DEFAULTPERSISTENCE { default yes } } fallback-persistence source_addr pool $VANITY_URL_$PORT_$ITSD_pool rules { /Common/_msu_enable_strict_transport_security /Common/_msu_jboss_admin_discard /Common/_msu_remove_server_and_powered_by /Common/_msu_insert-x-forwarded-headers /Common/$VANITY_URL_$ITSD_irule }';
+  var _sys_save = 'save /sys config';
   var poolMemberCount = 0;
   var ip = "";
   var count = 0;
@@ -401,6 +402,7 @@ function code_generator() {
   output = output.replace(/\$TRAFFIC_SOURCE/gi, _traffic_source );
   output = output.replace(/\$PORT/gi, _pool_member_port);
   output = output.replace(/\$DEFAULTPERSISTENCE/gi, _default_persistence);
+  output = output.replace(/\$ITSD/gi, _itsd);
 
 
   // Output the generated commands
