@@ -267,7 +267,9 @@ function code_generator() {
   var _ssl_server_create = 'create /ltm profile server-ssl $VANITY_URL_$ITSD_serverssl defaults-from serverssl-insecure-compatible';
   var _ssl_server_assign = 'modify /ltm virtual $VANITY_URL_443_$ITSD_vs profiles add { $VANITY_URL_$ITSD_serverssl { context serverside } } ';
   var _node = 'create /ltm node $NODE_FQDN address $NODE_IP';
-  var _monitor = 'create /ltm monitor $MONITOR_PROTOCOL $VANITY_URL_$MONITOR_PROTOCOL_$ITSD_monitor send "GET /$MONITOR_URI HTTP/1.1\\r\\nHost: $VANITY_URL\\r\\nConnection: Close\\r\\n\\r\\n" recv "HTTP\/1\.(0|1) (1|2|3|4)"';
+  var _monitor = '';
+  var _monitor_http = 'create /ltm monitor $MONITOR_PROTOCOL $VANITY_URL_$MONITOR_PROTOCOL_$ITSD_monitor send "GET /$MONITOR_URI HTTP/1.1\\r\\nHost: $VANITY_URL\\r\\nConnection: Close\\r\\n\\r\\n" recv "HTTP\/1\.(0|1) (1|2|3|4)"';
+  var _monitor_tcp = 'create /ltm monitor $MONITOR_PROTOCOL $VANITY_URL_$MONITOR_PROTOCOL_$ITSD_monitor';
   var _pool = 'create /ltm pool $VANITY_URL_$PORT_$ITSD_pool monitor $VANITY_URL_$MONITOR_PROTOCOL_$ITSD_monitor';
   var _pool_member = 'modify /ltm pool $VANITY_URL_$PORT_$ITSD_pool members add {$NODE_FQDN:$NODE_PORT} ';
   var _pool_member_port = $("#pool_member_port_0").val();
@@ -328,7 +330,15 @@ function code_generator() {
   }
 
   if ( $("#createPoolMonitor").is(":checked") ) {
-      // output = output + "\r\n" + "# Create Pool Monitor" + "\r\n";
+      if ( _monitor_protocol.toLowerCase() == "tcp" ) {
+        _monitor = _monitor_tcp;
+      } else if ( _monitor_protocol.toLowerCase() == "http" ) {
+        _monitor = _monitor_http;
+      } else if ( _monitor_protocol.toLowerCase() == "https" ) {
+        _monitor = _monitor_http;
+      } else {
+        _monitor = _monitor_http;
+      }
       output = _createComment ? output + "\r\n" + "# Create Pool Monitor" + "\r\n" : output ;
       output = output + _monitor + "\r\n";
   }
