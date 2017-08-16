@@ -388,12 +388,15 @@ function code_generator() {
       output = output + _virtual_server_443 + "\r\n";
   }
 
-  if ( _monitor_protocol == "https" ) {
-    // output = output + "\r\n" + "# Create and Assign Server SSL" + "\r\n";
-    output = _createComment ? output + "\r\n" + "# Create and Assign Server SSL" + "\r\n" : output ;
-    output = output + _ssl_server_create + "\r\n";
-    output = output + _ssl_server_assign + "\r\n";
+  if ( $("#createServerSSL").is(":checked") ) {
+    if ( _monitor_protocol == "https" ) {
+      // output = output + "\r\n" + "# Create and Assign Server SSL" + "\r\n";
+      output = _createComment ? output + "\r\n" + "# Create and Assign Server SSL" + "\r\n" : output ;
+      output = output + _ssl_server_create + "\r\n";
+      output = output + _ssl_server_assign + "\r\n";
+    }
   }
+
 
   if ( $("#createHttpCompression").is(":checked") ) {
       // output = output + "\r\n" + "# Create and Assign HTTP Compression Profile" + "\r\n";
