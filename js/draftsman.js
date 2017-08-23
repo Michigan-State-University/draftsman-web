@@ -261,7 +261,7 @@ function code_generator() {
   var _monitor = '';
   var _monitor_http = 'create /ltm monitor $MONITOR_PROTOCOL $VANITY_URL_$MONITOR_PROTOCOL_$ITSD_monitor send "GET /$MONITOR_URI HTTP/1.1\\r\\nHost: $VANITY_URL\\r\\nConnection: Close\\r\\n\\r\\n" recv "HTTP\/1\.(0|1) (1|2|3|4)"';
   var _monitor_tcp = 'create /ltm monitor $MONITOR_PROTOCOL $VANITY_URL_$MONITOR_PROTOCOL_$ITSD_monitor';
-  var _pool = 'create /ltm pool $VANITY_URL_$PORT_$ITSD_pool monitor $VANITY_URL_$MONITOR_PROTOCOL_$ITSD_monitor';
+  var _pool = 'create /ltm pool $VANITY_URL_$PORT_$ITSD_pool monitor $VANITY_URL_$MONITOR_PROTOCOL_$ITSD_monitor description "$VS_DESCRIPTION"';
   var _pool_member = 'modify /ltm pool $VANITY_URL_$PORT_$ITSD_pool members add {$NODE_FQDN:$NODE_PORT} ';
   var _pool_member_port = $("#pool_member_port_0").val();
   var _base_irule = 'tmsh create /ltm rule $VANITY_URL_$ITSD_irule ""';
